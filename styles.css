@@ -47,6 +47,15 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 .book-back h3{font-size:1.4rem;color:var(--wes-blue);margin-bottom:.6rem;}
 .book-back li{margin-bottom:.25rem;}
 
+.comment-box{margin-top:1rem;display:flex;flex-direction:column;gap:.35rem;}
+.comment-box label{font-size:.95rem;color:var(--wes-blue);}
+.comment-box textarea{width:100%;border:1px solid var(--wes-olive);padding:.5rem;font:16px/1.4 'Jersey 15',cursive;background:#fff8ee;color:var(--text);resize:vertical;min-height:80px;}
+.comment-box textarea:focus{outline:2px solid var(--wes-yellow);}
+.comment-box button{align-self:flex-start;background:var(--wes-green);color:var(--text);border:none;padding:.45rem .8rem;font:15px 'Jersey 15',cursive;cursor:pointer;transition:opacity .2s;}
+.comment-box button:disabled{opacity:.5;cursor:not-allowed;}
+.comment-box button:hover:not(:disabled){opacity:.8;}
+.comment-status{min-height:1rem;font-size:.9rem;color:var(--wes-pink);}
+
 /* === divider === */
 .divider{
   height:6px;          /* keep thickness */
@@ -81,4 +90,3 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 @media (max-width:600px){
   .grid{grid-template-columns:repeat(2,1fr);} /* two per row on phones */
 }
-
