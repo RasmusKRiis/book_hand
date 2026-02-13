@@ -1,28 +1,46 @@
-title,author,cover_image,release_date,date_read,status,comment
-The Impossible City,Karen Cheung,impossible_city.png,2022,2025-07-18,read,"--"
-The Book of Tokyo,M.Emnrich et al,book_of_tokyo.png,2015,2025-07-23,read,"--"
-Strange Houses,Uketsu,strange_houses.png,2025,2025-07-19,read,"--"
-XI - A Study in Power,Kerry Brown,xia.png,2022,2025-06-10,read,"--"
-Cold Enough for Snow,Jessica Au,cold_snow.png,2022,2024-05-01,read,"--"
-The Wind-Up Bird Chronicle,Haruki Murakami,wind_up_bird.png,1994,2024-05-20,read,"--"
-Heaven, Mieko Kawakami,heaven.png,2009,2024-06-02,read,"--"
-Butter, Asako Yuzuki,butter.png,2017,2024-07-21,read,"--"
-Mild Vertigo, Mieko Kanai,vertigo.png,1997,2024-06-17,read,"--"
-The Last Childeren of Tokyo, Yoko Tawada,last_children.png,2014,2024-06-01,read,"--"
-Project Hail Mary, Andy Weir,hail_mary.png,2021,2024-09-11,read,"--"
-Piranesi, Susanna Clarke,piranesi.png,2020,2024-10-10,read,"--"
-City on Fire: The Fight for Hong Kong,Antony Dapiran,city_on_fire.png,2020,2025-07-23,reading,"--"
-The Hole, Hiroko Oyamada,the_hole.png,2014,2024-11-01,read,"--"
-Cursed Bunny,Bora Chung,cursed_bunny.png,2017,2024-11-15,read,"--"
-Dream of Ding Village,Yan Lianke,dream_of_ding_village.png,2005,2024-10-25,read,"--"
-Tokyo Ueno Station,Miri Yu,ueno_station.png,2014,2024-07-28,read,"--"
-Life Ceremony,Sayaka Murata,life_ceremony.png,2019,2024-08-22,read,"--"
-Scattered All Over the World,Yoko Tawada,scattered_all_over_the_world.png,2022,2025-07-26,read,"--"
-We Do Not Part,Han Kang,we_do_not_part.png,2021,2025-07-26,reading,"--"
-Vanishing World,Sayaka Murata,vanishing_world.png,2025,2025-07-26,read,"--"
-In Praise of Shadows,Junichiro Tanizaki,in_praise_of_shadows.png,1933,2025-06-20,read,"--"
-Earthlings,Sayaka Murata,earthlings.png,2018,2024,read,"--"
-The Night of Baba Yaga,Akira Otani,night_of_baba_yaga.png,2020,2025-07-26,reading,"--"
-Empire of AI,Karen Hao,empire_of_ai.png,2025,2025-07-26,reading,"--"
-The White Book,Han Kang,whitebook.png,2016,2025,read,"--"
-
+title,author,cover_image,release_date,date_read,status,comment,ai_comment,rating,country
+The Impossible City,Karen Cheung,impossible_city.png,2022,2025-07-18,read,"Parts were fantastic and made me feel like I was living real life in Hong Kong. Some sections were too specialized in the author's arts scene, but the pressure of daily life and choices really made me think.","A raw, affectionate map of Hong Kong that balances grief, humor, and the weight of belonging.",4,Hong Kong
+The Book of Tokyo,M.Emnrich et al,book_of_tokyo.png,2015,2025-07-23,read,--,Snapshots of Tokyo that feel like overheard conversations and fleeting neon reflections.,4,Japan
+Strange Houses,Uketsu,strange_houses.png,2025,2025-07-19,read,Easy-to-read crime novel that hooks you quickly and keeps the story moving. I liked it a lot.,"Short, uncanny folktales where the walls are listening and the exits keep moving.",4,Japan
+XI - A Study in Power,Kerry Brown,xia.png,2022,2025-06-10,read,A very detailed look at Xi's politics. Interesting and one more step in my journey to understand the China to come.,Coolly argued biography that reads like a blueprint for consolidated power.,3,UK
+Cold Enough for Snow,Jessica Au,cold_snow.png,2022,2024-05-01,read,--,A quiet river of a novella that asks how memory edits love and duty.,4,Australia
+The Wind-Up Bird Chronicle,Haruki Murakami,wind_up_bird.png,1994,2024-05-20,read,--,"Surreal wells, missing cats, and the sense that reality might be one hallway over.",5,Japan
+Heaven, Mieko Kawakami,heaven.png,2009,2024-06-02,read,--,Bleak and tender; examines cruelty at school without easy absolution.,4,Japan
+Butter, Asako Yuzuki,butter.png,2017,2024-07-21,read,--,Food writing meets true crime; rich meals used to expose class and hunger.,4,Japan
+Mild Vertigo, Mieko Kanai,vertigo.png,1997,2024-06-17,read,--,"Domestic repetition rendered hypnotic, as if watching thoughts loop in real time.",4,Japan
+The Last Childeren of Tokyo, Yoko Tawada,last_children.png,2014,2024-06-01,read,--,Post-Fukushima dystopia drawn with delicate absurdity.,4,Japan
+Project Hail Mary, Andy Weir,hail_mary.png,2021,2024-09-11,read,--,High-school-teacher-in-space story powered by puzzles and dad jokes.,4,USA
+Piranesi, Susanna Clarke,piranesi.png,2020,2024-10-10,read,--,"Marble halls, tides, and a narrator who loves the labyrinth more than answers.",5,UK
+City on Fire: The Fight for Hong Kong,Antony Dapiran,city_on_fire.png,2020,2025-07-23,reading,--,"Clear, reporterly walk-through of 2019 protests with legal context.",4,Australia
+The Hole, Hiroko Oyamada,the_hole.png,2014,2024-11-01,read,--,Languid surrealism about falling out of work and into a literal hole.,4,Japan
+Cursed Bunny,Bora Chung,cursed_bunny.png,2017,2024-11-15,read,--,Body horror fables with a sardonic narrator; brings its own cursed energy.,4,South Korea
+Dream of Ding Village,Yan Lianke,dream_of_ding_village.png,2005,2024-10-25,read,--,Village-level tragedy of blood selling; mordant and musical.,4,China
+Tokyo Ueno Station,Miri Yu,ueno_station.png,2014,2024-07-28,read,--,Ghostly monologue of a laborer haunting the park he once slept in.,4,Japan
+Life Ceremony,Sayaka Murata,life_ceremony.png,2019,2024-08-22,read,--,"Inventive, grotesque rites that question norms with deadpan delivery.",4,Japan
+Scattered All Over the World,Yoko Tawada,scattered_all_over_the_world.png,2022,2025-07-26,read,"I loved the idea and was fascinated by the unique writing style. The flow and writing stood above the story, but the story was still interesting enough to keep me engaged.",Playful linguistics in a world without Japan; language as migration map.,3.5,Japan
+We Do Not Part,Han Kang,we_do_not_part.png,2021,2025-07-26,read,"This felt focused on inner emotions and relationships more than physical context. I like Han Kang, but sometimes I struggled to follow every thread and what it all meant.",Fragments of grief and art practice; soft but razor-edged.,3,South Korea
+Vanishing World,Sayaka Murata,vanishing_world.png,2025,2025-07-26,read,"This book hangs on its core idea. It is far-fetched but still connected enough to today's society to keep me very interested, especially in how human relationships may evolve.",Breezy apocalypse vignettes that treat oddity as common sense.,3,Japan
+In Praise of Shadows,Junichiro Tanizaki,in_praise_of_shadows.png,1933,2025-06-20,read,"Fantastic. Some parts are outdated, but most ideas still hold. It made me think about not only light, but also what light takes away and how the unseen can be beautiful.",A meditation on darkness and lacquerware; still feels current about tech and taste.,5,Japan
+Earthlings,Sayaka Murata,earthlings.png,2018,2024,read,--,Deadpan alienation turning into something feral and unforgettable.,5,Japan
+The Night of Baba Yaga,Akira Otani,night_of_baba_yaga.png,2020,2025-07-26,reading,--,Forest folklore retold with modern dread; slow-build eeriness.,4,Japan
+Empire of AI,Karen Hao,empire_of_ai.png,2025,2025-07-26,reading,--,Reported look at AI power centers; maps regulation gaps and incentives.,4,USA
+The White Book,Han Kang,whitebook.png,2016,2025,read,I hope I pick this up again. The format feels new and intriguing to me.,Lyrical meditation on loss using the color white as scaffolding.,4,South Korea
+Morgon og Kveld,Jon Fosse,morgon_og_kveld.png,2000,2025,read,--,A lyrical novella about a fisherman's birth and final day that quietly meditates on mortality faith and crossing into the unknown.,,Norway
+The Coming Wave,Mustafa Suleyman,the_coming_wave.png,2023,2025,read,--,Suleyman argues that AI and synthetic biology will arrive fast and asks whether institutions can contain their risks before they scale.,,United Kingdom
+Abroad in Japan,Chris Broad,abroad_in_japan.png,2023,2025,read,--,Chris Broad recounts his years in Japan through travel stories culture clashes and sharp humor from rural life to big city adventures.,,United Kingdom
+Factfulness,Hans Rosling,factfulness.png,2018,2025,read,--,Rosling uses global data to challenge common myths and shows how bias and fear distort how we judge progress in the world.,,Sweden
+Pachinko,Min Jin Lee,pachinko.png,2017,2025,read,--,A multigenerational saga of a Korean family in Japan tracing love survival and discrimination from colonial Korea into the modern era.,,South Korea
+Klara and the Sun,Kazuo Ishiguro,klara_and_the_sun.png,2021,2025,read,--,An Artificial Friend observes human love class and illness while trying to save the girl she was bought to companion.,,United Kingdom
+Weasels in the Attic,Hiroko Oyamada,weasels_in_the_attic.png,2013,2025,read,--,Three linked surreal stories follow a couple and their circle as parenthood anxiety and social pressure turn ordinary life uncanny.,,Japan
+Strange Pictures,Uketsu,strange_pictures.png,2024,2025,read,--,Interlocking mystery cases are solved through unsettling drawings whose hidden clues connect multiple crimes and buried motives.,,Japan
+The City and Its Uncertain Walls,Haruki Murakami,uncertain_walls.png,2024,2025,read,--,A man searches across reality and a shadowless walled city for a lost love in a dreamlike meditation on memory and identity.,,Japan
+The Three-Body Problem,Cixin Liu,three_body_problem.png,2006,2025,read,--,Set against and after the Cultural Revolution this first-contact saga links frontier physics to a looming alien threat to humanity.,,China
+After Dark,Haruki Murakami,after_dark.png,2004,2025,read,--,Over one Tokyo night strangers collide in bars hotels and backstreets as loneliness violence and compassion briefly intersect.,,Japan
+Norwegian Wood,Haruki Murakami,norwegian_wood.png,1987,2025,read,--,Toru Watanabe looks back on youth and grief as he is torn between fragile Naoko and vibrant Midori.,,Japan
+The Factory,Hiroko Oyamada,the_factory.png,2013,2025,read,--,Three workers drift through a vast absurd factory where repetitive labor slowly erodes purpose identity and a stable sense of reality.,,Japan
+Your Utopia,Bora Chung,your_utopia.png,2024,2025,read,--,In darkly satirical speculative stories Bora Chung explores surveillance technology and intimacy while exposing the human cost of conformity.,,South Korea
+The Gene,Siddhartha Mukherjee,the_gene.png,2016,2025,read,--,Mukherjee traces the science and history of genetics and examines the ethical stakes of heredity diagnosis and gene editing.,,India
+Homo Deus,Yuval Noah Harari,homo_deus.png,2016,2025,read,--,Harari explores how data capitalism biotechnology and AI could reshape human goals and create new moral and political risks.,,Israel
+The Hour of the Predator,Alex Scarrow,hour_of_the_predator.png,2010,2025-01-17,read,--,In this TimeRiders entry a botched mission strands Liam in the age of dinosaurs where survival threatens to rewrite history.,,United Kingdom
+Pyongyang: A Journey in North Korea,Guy Delisle,pyongyang.png,2004,2025-02.08,read,--,Guy Delisle's graphic memoir records his tightly controlled work stay in Pyongyang with dry humor and sharp observations of authoritarian life.,,Canada
+Flashlight,Susan Choi,flashlight.png,2025,2026-02-13,reading,--,After a father disappears during a beach walk this family saga spans decades and countries to examine grief identity and political history.,,USA

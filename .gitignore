@@ -1,0 +1,4 @@
+cover_queue/incoming/*
+!cover_queue/incoming/.gitkeep
+cover_queue/processed/*
+!cover_queue/processed/.gitkeep
