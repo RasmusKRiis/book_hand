@@ -31,9 +31,6 @@ body{background:var(--bg);color:var(--text);font:17px/1.6 'Jersey 15',cursive;ov
   align-items:flex-start;
   gap:1.25rem;
   padding:1rem 1.5rem 1.1rem;
-  background:linear-gradient(180deg, rgba(245,233,215,0.98) 0%, rgba(245,233,215,0.94) 78%, rgba(245,233,215,0) 100%);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
   z-index:20;
 }
 
