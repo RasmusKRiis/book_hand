@@ -4,29 +4,30 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Pixel Reading Shelf</title>
-  <link rel="stylesheet" href="styles.css?v=20260402e"/>
+  <link rel="stylesheet" href="styles.css?v=20260402f"/>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js" defer></script>
   <script src="script.js?v=20260402e" defer></script>
 </head>
 <body>
   <div class="wrapper">
-    <!-- site title (left) -->
-    <a href="https://www.instagram.com/reading_mimmi/profilecard/?igsh=MWhnaXd2Y21sN3ZucQ==" class="site-title" target="_blank" rel="noopener">mimmi’s shelf</a>
+    <div class="top-bar">
+      <a href="https://www.instagram.com/reading_mimmi/profilecard/?igsh=MWhnaXd2Y21sN3ZucQ==" class="site-title" target="_blank" rel="noopener">mimmi’s shelf</a>
 
-    <div class="control-panel">
-      <label class="search-field" for="searchInput">
-        <span class="search-label">Find a book</span>
-        <input id="searchInput" class="search-input" type="search" placeholder="Title or author" autocomplete="off"/>
-      </label>
-
-      <div class="filter-box">
-        <label class="toggle" title="切換 cat3‑waan6 (toggle)">
-          <input type="checkbox" id="filterToggle"/>
-          <span class="slider"></span>
+      <div class="control-panel">
+        <label class="search-field" for="searchInput">
+          <span class="search-label">Find a book</span>
+          <input id="searchInput" class="search-input" type="search" placeholder="Title or author" autocomplete="off"/>
         </label>
-        <span id="filterLabel" class="filter-label">Currently Reading</span>
+
+        <div class="filter-box">
+          <label class="toggle" title="切換 cat3‑waan6 (toggle)">
+            <input type="checkbox" id="filterToggle"/>
+            <span class="slider"></span>
+          </label>
+          <span id="filterLabel" class="filter-label">Currently Reading</span>
+        </div>
       </div>
-      </div>
+    </div>
 
     <section id="showcase">
       <button id="bookLink" class="book-display" type="button" aria-label="Open current book page">

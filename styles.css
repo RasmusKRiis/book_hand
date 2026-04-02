@@ -19,23 +19,36 @@
 
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font:17px/1.6 'Jersey 15',cursive;overflow-x:hidden;}
-.wrapper{padding-top:4.5rem;}
+.wrapper{padding-top:8.5rem;}
+
+.top-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:1.25rem;
+  padding:1rem 1.5rem 1.1rem;
+  background:linear-gradient(180deg, rgba(245,233,215,0.98) 0%, rgba(245,233,215,0.94) 78%, rgba(245,233,215,0) 100%);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  z-index:20;
+}
 
 /* === site title === */
-.site-title{position:fixed;top:1rem;left:1.5rem;font-family:'Jersey 15',cursive;font-size:1.6rem;color:var(--wes-pink);text-decoration:none;letter-spacing:.5px;transition:opacity .2s;z-index:11;}
+.site-title{position:relative;font-family:'Jersey 15',cursive;font-size:1.6rem;color:var(--wes-pink);text-decoration:none;letter-spacing:.5px;transition:opacity .2s;z-index:1;padding-top:.15rem;flex-shrink:0;}
 .site-title:hover{opacity:.7;}
 
 /* === top controls === */
 .control-panel{
-  position:fixed;
-  top:1rem;
-  right:1.5rem;
   display:flex;
   flex-direction:column;
   align-items:stretch;
   gap:.55rem;
   width:min(260px, calc(100vw - 3rem));
-  z-index:10;
+  margin-left:auto;
 }
 .search-field{display:flex;flex-direction:column;gap:.18rem;}
 .search-label{font-size:.95rem;color:var(--wes-pink);}
@@ -169,13 +182,17 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 
 /* === mobile tweak: 2‑up grid on narrow screens === */
 @media (max-width:600px){
-  .wrapper{padding-top:8rem;}
-  .site-title{left:1rem;top:.85rem;}
+  .wrapper{padding-top:11rem;}
+  .top-bar{
+    flex-direction:column;
+    align-items:stretch;
+    gap:.55rem;
+    padding:.85rem 1rem 1rem;
+  }
+  .site-title{padding-top:0;}
   .control-panel{
-    top:3.1rem;
-    left:1rem;
-    right:1rem;
     width:auto;
+    margin-left:0;
   }
   .filter-box{
     flex-direction:row;
