@@ -1,11 +1,16 @@
 const toggle  = document.getElementById('filterToggle');
 const label   = document.getElementById('filterLabel');
+const searchInput = document.getElementById('searchInput');
 const grid    = document.getElementById('grid');
 const starsEl = document.getElementById('stars');
+const bookDisplay = document.getElementById('bookLink');
 let books     = [];
 let filter    = 'reading';
+let searchTerm = '';
 let currentBook = null;
 const FALLBACK_COVER = 'book.png';
+const OPEN_LIBRARY_SEARCH_URL = 'https://openlibrary.org/search.json';
+const bookUrlCache = new Map();
 
 function setImageWithFallback(img, src){
   img.onerror = ()=>{img.onerror=null;img.src=FALLBACK_COVER;};
@@ -26,21 +31,43 @@ function loadBooks(){
         return new Date(db) - new Date(da);
       });
 
+      syncCurrentBook(false);
       renderGrid();
-
-      const first = books.find(b => b.status === 'reading') || books[0];
-      first && showBook(first, false);
     }
+  });
+}
+
+function normalizeText(value=''){
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,' ')
+    .trim();
+}
+
+function getVisibleBooks(){
+  const query = normalizeText(searchTerm);
+  return books.filter(b => {
+    if(filter !== 'all' && b.status !== 'reading'){
+      return false;
+    }
+    if(!query){
+      return true;
+    }
+    const haystack = [b.title, b.author]
+      .map(value => normalizeText(value))
+      .join(' ');
+    return haystack.includes(query);
   });
 }
 
 function renderGrid(){
   grid.innerHTML = '';
   const frag = document.createDocumentFragment();
+  const visibleBooks = getVisibleBooks();
 
-  books
-    .filter(b => filter === 'all' || b.status === 'reading')
-    .forEach(b => {
+  visibleBooks.forEach(b => {
       const img = document.createElement('img');
       setImageWithFallback(img, `assets/${b.cover_image}`);
       img.alt = b.title;
@@ -57,7 +84,14 @@ function renderGrid(){
       });
 
       frag.appendChild(img);
-    });
+  });
+
+  if(!visibleBooks.length){
+    const empty = document.createElement('p');
+    empty.className = 'empty-grid-message';
+    empty.textContent = searchTerm ? 'No books match that search.' : 'No books to show.';
+    frag.appendChild(empty);
+  }
 
   grid.appendChild(frag);
 }
@@ -93,8 +127,156 @@ function getDisplayText(value){
   return '--';
 }
 
+function updateBookLinkState(){
+  if(!bookDisplay){return;}
+  bookDisplay.disabled = !currentBook;
+  const label = currentBook?.title
+    ? `Open ${currentBook.title} in Open Library`
+    : 'Open current book in Open Library';
+  bookDisplay.setAttribute('aria-label', label);
+  bookDisplay.title = label;
+}
+
+function syncCurrentBook(animate){
+  const visibleBooks = getVisibleBooks();
+  if(!visibleBooks.length){
+    currentBook = null;
+    const cover = document.getElementById('cover');
+    if(cover){
+      setImageWithFallback(cover, FALLBACK_COVER);
+    }
+    document.getElementById('title').textContent = 'No matching books';
+    document.getElementById('author').textContent = '--';
+    document.getElementById('released').textContent = '--';
+    document.getElementById('read').textContent = '--';
+    const aiCommentEl = document.getElementById('aiComment');
+    if(aiCommentEl){
+      aiCommentEl.textContent = 'Try a different search term.';
+    }
+    renderStars(0);
+    updateBookLinkState();
+    return;
+  }
+
+  if(currentBook && visibleBooks.includes(currentBook)){
+    updateBookLinkState();
+    return;
+  }
+
+  showBook(visibleBooks[0], animate);
+}
+
+function getBookCacheKey(book){
+  return [book.title, book.author, book.release_date].map(normalizeText).join('|');
+}
+
+function buildFallbackBookUrl(book){
+  const params = new URLSearchParams();
+  if(book.title){params.set('title', book.title);}
+  if(book.author){params.set('author', book.author);}
+  return `https://openlibrary.org/search?${params.toString()}`;
+}
+
+function scoreBookMatch(book, candidate){
+  const wantedTitle = normalizeText(book.title);
+  const wantedAuthor = normalizeText(book.author);
+  const candidateTitle = normalizeText(candidate.title);
+  const candidateAuthors = (candidate.author_name || []).map(name => normalizeText(name));
+  const wantedYear = Number.parseInt(book.release_date,10);
+
+  let score = 0;
+
+  if(candidateTitle === wantedTitle){
+    score += 120;
+  }else if(candidateTitle.includes(wantedTitle) || wantedTitle.includes(candidateTitle)){
+    score += 80;
+  }
+
+  if(wantedAuthor){
+    if(candidateAuthors.includes(wantedAuthor)){
+      score += 60;
+    }else if(candidateAuthors.some(name => name.includes(wantedAuthor) || wantedAuthor.includes(name))){
+      score += 35;
+    }
+  }
+
+  if(Number.isFinite(wantedYear) && candidate.first_publish_year === wantedYear){
+    score += 20;
+  }
+
+  return score;
+}
+
+async function resolveBookUrl(book){
+  const cacheKey = getBookCacheKey(book);
+  if(bookUrlCache.has(cacheKey)){
+    return bookUrlCache.get(cacheKey);
+  }
+
+  const params = new URLSearchParams({
+    title: book.title || '',
+    limit: '5',
+    fields: 'key,title,author_name,first_publish_year'
+  });
+  if(book.author){
+    params.set('author', book.author);
+  }
+
+  const response = await fetch(`${OPEN_LIBRARY_SEARCH_URL}?${params.toString()}`);
+  if(!response.ok){
+    throw new Error(`Open Library lookup failed with status ${response.status}`);
+  }
+
+  const payload = await response.json();
+  const candidates = Array.isArray(payload.docs) ? payload.docs : [];
+  const bestMatch = candidates
+    .map(candidate => ({candidate, score: scoreBookMatch(book, candidate)}))
+    .sort((a,b) => b.score - a.score)[0];
+
+  const resolvedUrl = bestMatch?.score >= 80 && bestMatch.candidate?.key
+    ? `https://openlibrary.org${bestMatch.candidate.key}`
+    : buildFallbackBookUrl(book);
+
+  bookUrlCache.set(cacheKey, resolvedUrl);
+  return resolvedUrl;
+}
+
+async function openBookDatabase(book){
+  if(!book){return;}
+
+  const popup = window.open('about:blank', '_blank');
+  const fallbackUrl = buildFallbackBookUrl(book);
+
+  if(popup){
+    popup.opener = null;
+    popup.document.title = 'Opening book page...';
+    popup.document.body.style.fontFamily = '"Jersey 15", cursive';
+    popup.document.body.style.background = '#F5E9D7';
+    popup.document.body.style.color = '#2E2E2E';
+    popup.document.body.style.padding = '2rem';
+    popup.document.body.textContent = 'Looking up the book in Open Library...';
+  }
+
+  try{
+    const resolvedUrl = await resolveBookUrl(book);
+    if(popup){
+      popup.location.replace(resolvedUrl);
+    }else{
+      window.open(resolvedUrl, '_blank', 'noopener');
+    }
+  }catch(err){
+    console.error(err);
+    if(popup){
+      popup.location.replace(fallbackUrl);
+    }else{
+      window.open(fallbackUrl, '_blank', 'noopener');
+    }
+  }
+}
+
 function showBook(b,animate=true){
   currentBook = b;
+  updateBookLinkState();
   const display=document.querySelector('.book-display');
   const hand   =display.querySelector('.hand');
   const cover  =display.querySelector('#cover');
@@ -123,8 +305,17 @@ function showBook(b,animate=true){
 
 toggle.addEventListener('change',()=>{
   filter = toggle.checked ? 'all' : 'reading';
+  syncCurrentBook(false);
   renderGrid();
   updateLabel();
 });
+
+searchInput?.addEventListener('input',(event)=>{
+  searchTerm = event.target.value || '';
+  syncCurrentBook(false);
+  renderGrid();
+});
+
+bookDisplay?.addEventListener('click',()=>{openBookDatabase(currentBook);});
 
 document.addEventListener('DOMContentLoaded',()=>{loadBooks();updateLabel();});

@@ -4,31 +4,37 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Pixel Reading Shelf</title>
-  <link rel="stylesheet" href="styles.css?v=20260402b"/>
+  <link rel="stylesheet" href="styles.css?v=20260402c"/>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/colorthief@2.3.2/dist/color-thief.umd.js" defer></script>
-  <script src="script.js?v=20260402b" defer></script>
+  <script src="script.js?v=20260402c" defer></script>
 </head>
 <body>
   <div class="wrapper">
     <!-- site title (left) -->
     <a href="https://www.instagram.com/reading_mimmi/profilecard/?igsh=MWhnaXd2Y21sN3ZucQ==" class="site-title" target="_blank" rel="noopener">mimmi’s shelf</a>
 
-    <!-- fixed top‑right filter toggle + status -->
-    <div class="filter-box">
-      <label class="toggle" title="切換 cat3‑waan6 (toggle)">
-        <input type="checkbox" id="filterToggle"/>
-        <span class="slider"></span>
+    <div class="control-panel">
+      <label class="search-field" for="searchInput">
+        <span class="search-label">Find a book</span>
+        <input id="searchInput" class="search-input" type="search" placeholder="Title or author" autocomplete="off"/>
       </label>
-      <span id="filterLabel" class="filter-label">Currently Reading</span>
+
+      <div class="filter-box">
+        <label class="toggle" title="切換 cat3‑waan6 (toggle)">
+          <input type="checkbox" id="filterToggle"/>
+          <span class="slider"></span>
+        </label>
+        <span id="filterLabel" class="filter-label">Currently Reading</span>
+      </div>
     </div>
 
     <section id="showcase">
-      <div class="book-display">
+      <button id="bookLink" class="book-display" type="button" aria-label="Open current book in Open Library">
         <img id="cover" class="cover" src="assets/impossible_city.png" alt="Book cover"/>
         <img class="hand" src="assets/hand.png" alt="Pixel hand"/>
-      </div>
+      </button>
 
       <div id="back" class="book-back">
         <h2 id="title"></h2>
