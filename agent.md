@@ -3,8 +3,8 @@
 - Entry points
   - `index.html`: lays out the wrapper, hero book section, toggle for filtering, and book grid container. Loads CSS plus the three CDNs and `script.js`.
   - `styles.css`: Wes‑Anderson–inspired palette, grid layout (5 columns desktop, 2 mobile), hero layout, toggle styling, and overall typography.
-  - `script.js`: fetches `data/books.csv`, sorts, filters, renders thumbnails, handles click-to-view + animations, drives the filter toggle, and posts comment updates to Netlify.
-  - Data: `data/books.csv` (headers: `title,author,cover_image,release_date,date_read,status,comment`). Covers live in `assets/`; hand sprite in `assets/hand.png`; `book.png` unused.
+  - `script.js`: fetches `data/books.csv`, sorts, filters, renders thumbnails, handles click-to-view + animations, and drives the filter toggle.
+  - Data: `data/books.csv` (headers: `title,author,cover_image,release_date,date_read,status,comment,ai_comment,rating,country`). Covers live in `assets/`; hand sprite in `assets/hand.png`; `book.png` unused.
   - Serverless: `netlify/functions/update-comment.js` updates `data/books.csv` in GitHub via the GitHub Contents API.
 
 Runtime behavior (script.js)

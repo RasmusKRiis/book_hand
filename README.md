@@ -19,8 +19,8 @@ The live page is read-only. All new books and cover art are added locally and th
    - `date_read`: `YYYY-MM-DD` when finished; leave empty while reading.  
    - `comment`: your short note.  
    - `ai_comment`: longer AI blurb if you want it displayed.  
-    - `rating`: integer 0–5; shown as pixel stars. Leaving blank hides stars.  
-    - `country`: where the author is from (drives the country chart).
+   - `rating`: integer 0–5; shown as pixel stars. Leaving blank hides stars.  
+   - `country`: optional metadata field kept in the CSV.
 
    Example row (copy/paste and edit):  
    ```csv
@@ -70,4 +70,3 @@ Useful options:
 - Keep cover filenames unique to avoid browser caching confusion.  
 - If you add many books at once, appending to the CSV is fine—the UI sorts them for you.  
 - If you need to hide a book temporarily, change `status` to anything else (it will be filtered out by default).
-- Stats page: click the hero book on `index.html` to jump to `stats.html` (charts: release→read gap, author country spread, star distribution, author slopegraph). Country bubbles use `data/map.csv` lat/long to place dots.

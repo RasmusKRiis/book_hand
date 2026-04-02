@@ -6,7 +6,6 @@ let books     = [];
 let filter    = 'reading';
 let currentBook = null;
 const FALLBACK_COVER = 'book.png';
-const hero = document.querySelector('.book-display');
 
 function setImageWithFallback(img, src){
   img.onerror = ()=>{img.onerror=null;img.src=FALLBACK_COVER;};
@@ -133,5 +132,3 @@ toggle.addEventListener('change',()=>{
 });
 
 document.addEventListener('DOMContentLoaded',()=>{loadBooks();updateLabel();});
-
-hero?.addEventListener('click',()=>{window.location.href='stats.html';});
