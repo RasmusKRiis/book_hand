@@ -141,6 +141,7 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 }
 .thumbnail{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:0px;box-shadow:none;transition:transform .25s;cursor:pointer;}
 .thumbnail:hover{transform:scale(1.1);} /* siu2‑siu2 daai6 */
+.grid-sentinel{grid-column:1 / -1;height:1px;}
 .empty-grid-message{
   grid-column:1 / -1;
   padding:1rem 0;

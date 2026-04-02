@@ -8,9 +8,15 @@ let books     = [];
 let filter    = 'reading';
 let searchTerm = '';
 let currentBook = null;
+let visibleBooks = [];
+let renderedGridCount = 0;
+let gridSentinel = null;
+let gridObserver = null;
 const FALLBACK_COVER = 'book.png';
 const OPEN_LIBRARY_SEARCH_URL = 'https://openlibrary.org/search.json';
 const bookUrlCache = new Map();
+const INITIAL_GRID_ITEMS = 10;
+const GRID_CHUNK_SIZE = 10;
 
 function setImageWithFallback(img, src){
   img.onerror = ()=>{img.onerror=null;img.src=FALLBACK_COVER;};
@@ -18,11 +24,13 @@ function setImageWithFallback(img, src){
 }
 
 function loadBooks(){
-  const csvUrl = `data/books.csv?ts=${Date.now()}`;
-  Papa.parse(csvUrl, {
+  Papa.parse('data/books.csv', {
     download: true, header: true, skipEmptyLines: true,
     complete: (res) => {
-      books = res.data;
+      books = res.data.map(book => ({
+        ...book,
+        _searchIndex: normalizeText([book.title, book.author].join(' '))
+      }));
 
       // sort first (newest read first; "reading" with empty date stay on top)
       books.sort((a,b)=>{
@@ -32,7 +40,7 @@ function loadBooks(){
       });
 
       syncCurrentBook(false);
-      renderGrid();
+      resetGrid();
     }
   });
 }
@@ -55,45 +63,103 @@ function getVisibleBooks(){
     if(!query){
       return true;
     }
-    const haystack = [b.title, b.author]
-      .map(value => normalizeText(value))
-      .join(' ');
-    return haystack.includes(query);
+    return b._searchIndex.includes(query);
   });
 }
 
-function renderGrid(){
-  grid.innerHTML = '';
-  const frag = document.createDocumentFragment();
-  const visibleBooks = getVisibleBooks();
-
-  visibleBooks.forEach(b => {
-      const img = document.createElement('img');
-      setImageWithFallback(img, `assets/${b.cover_image}`);
-      img.alt = b.title;
-      img.className = 'thumbnail';
-
-      // Speed wins: lazy load and async decode, low fetch priority
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.setAttribute('fetchpriority', 'low');
-
-      img.addEventListener('click', () => {
-        showBook(b, true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      frag.appendChild(img);
+function createThumbnail(book){
+  const img = document.createElement('img');
+  setImageWithFallback(img, `assets/${book.cover_image}`);
+  img.alt = book.title;
+  img.className = 'thumbnail';
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  img.setAttribute('fetchpriority', 'low');
+  img.addEventListener('click', () => {
+    showBook(book, true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+  return img;
+}
 
-  if(!visibleBooks.length){
-    const empty = document.createElement('p');
-    empty.className = 'empty-grid-message';
-    empty.textContent = searchTerm ? 'No books match that search.' : 'No books to show.';
-    frag.appendChild(empty);
+function disconnectGridObserver(){
+  if(gridObserver){
+    gridObserver.disconnect();
+    gridObserver = null;
+  }
+}
+
+function removeGridSentinel(){
+  if(gridSentinel){
+    gridSentinel.remove();
+    gridSentinel = null;
+  }
+}
+
+function appendGridSentinel(){
+  removeGridSentinel();
+  if(renderedGridCount >= visibleBooks.length){
+    disconnectGridObserver();
+    return;
   }
 
+  gridSentinel = document.createElement('div');
+  gridSentinel.className = 'grid-sentinel';
+  grid.appendChild(gridSentinel);
+
+  if(!('IntersectionObserver' in window)){
+    renderNextGridChunk();
+    return;
+  }
+
+  disconnectGridObserver();
+  gridObserver = new IntersectionObserver((entries) => {
+    if(entries.some(entry => entry.isIntersecting)){
+      renderNextGridChunk();
+    }
+  }, {rootMargin:'300px 0px'});
+  gridObserver.observe(gridSentinel);
+}
+
+function renderEmptyGrid(){
+  const empty = document.createElement('p');
+  empty.className = 'empty-grid-message';
+  empty.textContent = searchTerm ? 'No books match that search.' : 'No books to show.';
+  grid.appendChild(empty);
+}
+
+function renderNextGridChunk(){
+  if(!visibleBooks.length){
+    return;
+  }
+
+  removeGridSentinel();
+  const nextChunkSize = renderedGridCount === 0 ? INITIAL_GRID_ITEMS : GRID_CHUNK_SIZE;
+  const nextBooks = visibleBooks.slice(renderedGridCount, renderedGridCount + nextChunkSize);
+  const frag = document.createDocumentFragment();
+
+  nextBooks.forEach(book => {
+    frag.appendChild(createThumbnail(book));
+  });
+
+  renderedGridCount += nextBooks.length;
   grid.appendChild(frag);
+  appendGridSentinel();
+}
+
+function resetGrid(){
+  disconnectGridObserver();
+  removeGridSentinel();
+  grid.innerHTML = '';
+  visibleBooks = getVisibleBooks();
+  renderedGridCount = 0;
+
+  if(!visibleBooks.length){
+    renderEmptyGrid();
+    return;
+  }
+
+  renderNextGridChunk();
 }
 
 function updateLabel(){
@@ -306,14 +372,14 @@ function showBook(b,animate=true){
 toggle.addEventListener('change',()=>{
   filter = toggle.checked ? 'all' : 'reading';
   syncCurrentBook(false);
-  renderGrid();
+  resetGrid();
   updateLabel();
 });
 
 searchInput?.addEventListener('input',(event)=>{
   searchTerm = event.target.value || '';
   syncCurrentBook(false);
-  renderGrid();
+  resetGrid();
 });
 
 bookDisplay?.addEventListener('click',()=>{openBookDatabase(currentBook);});
