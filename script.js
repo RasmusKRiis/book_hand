@@ -103,9 +103,9 @@ function showBook(b,animate=true){
   const swap=()=>{
     setImageWithFallback(cover, `assets/${b.cover_image}`);
     document.getElementById('title').textContent   = b.title;
-    document.getElementById('author').textContent  = b.author;
-    document.getElementById('released').textContent= b.release_date;
-    document.getElementById('read').textContent    = b.date_read;
+    document.getElementById('author').textContent  = getDisplayText(b.author);
+    document.getElementById('released').textContent= getDisplayText(b.release_date);
+    document.getElementById('read').textContent    = getDisplayText(b.date_read);
     const commentEl = document.getElementById('comment');
     const aiCommentEl = document.getElementById('aiComment');
     if(commentEl){
