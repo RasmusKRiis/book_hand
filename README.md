@@ -3,9 +3,10 @@
 The live page is read-only. All new books and cover art are added locally and then pushed.
 
 ## Quick start
-- Serve locally so CSV fetch works: `python -m http.server 8000` and open `http://localhost:8000`.
-- Data lives in `data/books.csv`; covers live in `assets/`.
+- Serve locally so JSON fetch works: `python -m http.server 8000` and open `http://localhost:8000`.
+- Source data lives in `data/books.csv`; the frontend reads generated `data/books.json`. Covers live in `assets/`.
 - The grid shows only `status=reading` by default; toggle switches to all books. Sorting is automatic (newest `date_read` first; blanks float to the top).
+- URL state is preserved for filter/search/current book, so refreshing keeps the same view.
 
 ## Add a new book
 1) Prepare the cover  
@@ -14,21 +15,29 @@ The live page is read-only. All new books and cover art are added locally and th
    - Drop the file in `assets/`. If a cover is missing or mistyped, the UI will fall back to `book.png`.
 
 2) Add a row to `data/books.csv`  
-   - Columns: `title,author,cover_image,release_date,date_read,status,comment,ai_comment,rating,country`.  
+   - Columns: `title,author,slug,cover_image,release_date,date_read,status,comment,ai_comment,rating,country,book_url,isbn,language,translated_from,genre`.  
+   - `slug`: URL-safe identifier. Leave blank to auto-generate from the title.  
    - `status`: `reading` or `read`.  
    - `date_read`: `YYYY-MM-DD` when finished; leave empty while reading.  
    - `comment`: your short note.  
    - `ai_comment`: longer AI blurb if you want it displayed.  
    - `rating`: integer 0–5; shown as pixel stars. Leaving blank hides stars.  
    - `country`: optional metadata field kept in the CSV.
+   - `book_url`: direct link to the book database page used by the hero cover. Leave blank to fall back to an Open Library search URL.
+   - `isbn`, `language`, `translated_from`, `genre`: optional metadata fields for richer filtering/search later.
 
    Example row (copy/paste and edit):  
    ```csv
-   My New Book,Author Name,my_new_book.png,2025,2025-08-01,read,"Quick thought about the book.","AI take here about themes, pacing, vibes.",5,Japan
+   My New Book,Author Name,my-new-book,my_new_book.png,2025,2025-08-01,read,"Quick thought about the book.","AI take here about themes, pacing, vibes.",5,Japan,https://openlibrary.org/works/OL12345W,9780000000000,English,,Literary fiction
    ```
 
-3) Commit and push  
+3) Sync JSON  
+   - Run `node tools/sync-books-data.mjs`
+   - Optional: `node tools/sync-books-data.mjs --enrich-open-library` to backfill missing `book_url`, `isbn`, `language`, and `genre` from Open Library when the service is available.
+
+4) Commit and push  
    - Stage the new cover file and the CSV change.  
+   - Include the generated `data/books.json`.
    - Push to deploy; no edits are possible from the live site.
 
 ## Automated pixel-cover generation queue
@@ -55,6 +64,7 @@ What it does per file:
 - Saves output as `assets/<title>_pixel.png`.
 - Sets that row's `cover_image` to `<title>_pixel.png`.
 - Moves the original input file to `cover_queue/processed/` to avoid reprocessing.
+- After updating covers, run `node tools/sync-books-data.mjs` so `data/books.json` stays current.
 
 Useful options:
 - `--dry-run`: show matches/actions without API calls or file changes.
@@ -68,5 +78,6 @@ Useful options:
 
 ## Tips
 - Keep cover filenames unique to avoid browser caching confusion.  
-- If you add many books at once, appending to the CSV is fine—the UI sorts them for you.  
+- If you add many books at once, appending to the CSV is fine; run the sync script afterward and the UI will sort them for you.  
 - If you need to hide a book temporarily, change `status` to anything else (it will be filtered out by default).
+- The page supports keyboard shortcuts: `Esc` clears search, `Enter` opens the selected book page, and the arrow keys move between visible books.

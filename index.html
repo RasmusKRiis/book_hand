@@ -4,11 +4,9 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Pixel Reading Shelf</title>
-  <link rel="stylesheet" href="styles.css?v=20260402d"/>
+  <link rel="stylesheet" href="styles.css?v=20260402e"/>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/colorthief@2.3.2/dist/color-thief.umd.js" defer></script>
-  <script src="script.js?v=20260402d" defer></script>
+  <script src="script.js?v=20260402e" defer></script>
 </head>
 <body>
   <div class="wrapper">
@@ -28,11 +26,11 @@
         </label>
         <span id="filterLabel" class="filter-label">Currently Reading</span>
       </div>
-    </div>
+      </div>
 
     <section id="showcase">
-      <button id="bookLink" class="book-display" type="button" aria-label="Open current book in Open Library">
-        <img id="cover" class="cover" src="assets/impossible_city.png" alt="Book cover"/>
+      <button id="bookLink" class="book-display" type="button" aria-label="Open current book page">
+        <img id="cover" class="cover" src="book.png" alt="Book cover" loading="eager" decoding="async" fetchpriority="high"/>
         <img class="hand" src="assets/hand.png" alt="Pixel hand"/>
       </button>
 
@@ -56,7 +54,7 @@
 
     <div class="divider"></div>
 
-    <section id="grid" class="grid"></section>
+    <section id="grid" class="grid" aria-live="polite"></section>
   </div>
 </body>
 </html>

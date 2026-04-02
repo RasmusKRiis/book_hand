@@ -141,6 +141,14 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 }
 .thumbnail{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:0px;box-shadow:none;transition:transform .25s;cursor:pointer;}
 .thumbnail:hover{transform:scale(1.1);} /* siu2‑siu2 daai6 */
+.thumbnail-placeholder{
+  aspect-ratio:3/4;
+  background:
+    linear-gradient(90deg, rgba(255,248,238,0.45) 0%, rgba(255,248,238,0.85) 50%, rgba(255,248,238,0.45) 100%),
+    linear-gradient(180deg, rgba(181,164,129,0.18), rgba(138,182,214,0.16));
+  background-size:200% 100%, 100% 100%;
+  animation:placeholderSweep 1.2s linear infinite;
+}
 .grid-sentinel{grid-column:1 / -1;height:1px;}
 .empty-grid-message{
   grid-column:1 / -1;
@@ -153,6 +161,11 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 /* scroll bar subtle */
 .grid::-webkit-scrollbar{width:8px;}
 .grid::-webkit-scrollbar-thumb{background:var(--wes-pink);border-radius:4px;}
+
+@keyframes placeholderSweep{
+  from{background-position:200% 0, 0 0;}
+  to{background-position:-200% 0, 0 0;}
+}
 
 /* === mobile tweak: 2‑up grid on narrow screens === */
 @media (max-width:600px){
