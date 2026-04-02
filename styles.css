@@ -74,25 +74,6 @@ input:checked+.slider{background:var(--wes-green);}input:checked+.slider:before{
 
 .comment-block{margin-top:.85rem;}
 .comment-block .label{font-size:.9rem;color:var(--wes-blue);margin-bottom:.2rem;}
-.note-group{margin-top:.45rem;}
-.note-sub-label{
-  display:inline-block;
-  font-size:.82rem;
-  margin-bottom:.2rem;
-  padding:.08rem .45rem;
-  border-radius:999px;
-  border:1px solid transparent;
-}
-.comment-block .personal-note .note-sub-label{
-  color:#4f2f2f !important;
-  background-color:#f2d7d7 !important;
-  border-color:#dca9a9 !important;
-}
-.comment-block .summary-note .note-sub-label{
-  color:#21465e !important;
-  background-color:#d8e9f5 !important;
-  border-color:#9ec6e2 !important;
-}
 .note-text{padding:0;min-height:0;background:none;border:none;}
 
 /* === divider === */

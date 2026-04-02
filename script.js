@@ -105,11 +105,7 @@ function showBook(b,animate=true){
     document.getElementById('author').textContent  = getDisplayText(b.author);
     document.getElementById('released').textContent= getDisplayText(b.release_date);
     document.getElementById('read').textContent    = getDisplayText(b.date_read);
-    const commentEl = document.getElementById('comment');
     const aiCommentEl = document.getElementById('aiComment');
-    if(commentEl){
-      commentEl.textContent = getDisplayText(b.comment);
-    }
     if(aiCommentEl){
       aiCommentEl.textContent = getDisplayText(b.ai_comment);
     }
