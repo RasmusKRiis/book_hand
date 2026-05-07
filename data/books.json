@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-03T11:19:05.487Z",
-  "count": 49,
+  "generated_at": "2026-05-07T17:05:56.027Z",
+  "count": 51,
   "books": [
     {
       "title": "Hooked",
@@ -9,7 +9,7 @@
       "cover_image": "hooked.png",
       "release_date": "2015",
       "date_read": "2026-03-01",
-      "status": "reading",
+      "status": "read",
       "comment": "--",
       "ai_comment": "A tense novel of obsession and female friendship, where loneliness, status, and performance slowly curdle into fixation.",
       "rating": "",
@@ -932,6 +932,44 @@
       "translated_from": "Essays",
       "genre": "",
       "search_index": "on photography susan sontag essays"
+    },
+    {
+      "title": "Tiny Moons: A Year of Eating in Shanghai",
+      "author": "Nina Mingya Powles",
+      "slug": "tiny-moons",
+      "cover_image": "tiny_moons.png",
+      "release_date": "2020",
+      "date_read": "2026-05-07",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "Lyrical food essays that move between Shanghai and family memory to explore belonging appetite and cultural inheritance.",
+      "rating": "",
+      "country": "New Zealand",
+      "book_url": "https://openlibrary.org/search?title=Tiny+Moons%3A+A+Year+of+Eating+in+Shanghai&author=Nina+Mingya+Powles",
+      "isbn": "9781912915347",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Essays",
+      "search_index": "tiny moons a year of eating in shanghai nina mingya powles essays english"
+    },
+    {
+      "title": "He Rolled Me Up Like a Grilled Squid",
+      "author": "Yoshiharu Tsuge",
+      "slug": "he-rolled-me-up-like-a-grilled-squid",
+      "cover_image": "rolled_med_up_like_a_grilled_squid.png",
+      "release_date": "2026",
+      "date_read": "2026-05-07",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "Tsuge's surreal late-period manga turns domestic routines and wandering encounters into psychological horror dark comedy and uneasy self-portraiture.",
+      "rating": "",
+      "country": "Japan",
+      "book_url": "https://openlibrary.org/search?title=He+Rolled+Me+Up+Like+a+Grilled+Squid&author=Yoshiharu+Tsuge",
+      "isbn": "9781770467804",
+      "language": "English",
+      "translated_from": "Japanese",
+      "genre": "Graphic novel",
+      "search_index": "he rolled me up like a grilled squid yoshiharu tsuge graphic novel english japanese"
     }
   ]
 }
