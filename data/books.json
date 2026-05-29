@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-29T20:30:42.175Z",
+  "generated_at": "2026-05-29T20:40:44.101Z",
   "count": 53,
   "books": [
     {
@@ -464,8 +464,8 @@
       "slug": "the-night-of-baba-yaga",
       "cover_image": "night_of_baba_yaga.png",
       "release_date": "2020",
-      "date_read": "2025-07-26",
-      "status": "reading",
+      "date_read": "2026-05-29",
+      "status": "read",
       "comment": "--",
       "ai_comment": "Forest folklore retold with modern dread; slow-build eeriness.",
       "rating": "4",
@@ -939,8 +939,8 @@
       "slug": "tiny-moons",
       "cover_image": "tiny_moons.png",
       "release_date": "2020",
-      "date_read": "2026-05-07",
-      "status": "reading",
+      "date_read": "2026-05-29",
+      "status": "read",
       "comment": "--",
       "ai_comment": "Lyrical food essays that move between Shanghai and family memory to explore belonging appetite and cultural inheritance.",
       "rating": "",
