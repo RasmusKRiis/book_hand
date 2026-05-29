@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-07T17:05:56.027Z",
-  "count": 51,
+  "generated_at": "2026-05-29T20:30:42.175Z",
+  "count": 53,
   "books": [
     {
       "title": "Hooked",
@@ -970,6 +970,44 @@
       "translated_from": "Japanese",
       "genre": "Graphic novel",
       "search_index": "he rolled me up like a grilled squid yoshiharu tsuge graphic novel english japanese"
+    },
+    {
+      "title": "The Infinity Machine",
+      "author": "Sebastian Mallaby",
+      "slug": "the-infinity-machine",
+      "cover_image": "infinity_machine.png",
+      "release_date": "2026",
+      "date_read": "2026-05-29",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "Mallaby traces DeepMind through Hassabis's ambitions, scientific breakthroughs, and the uneasy race toward superintelligence.",
+      "rating": "",
+      "country": "United Kingdom",
+      "book_url": "https://openlibrary.org/search?title=The+Infinity+Machine&author=Sebastian+Mallaby",
+      "isbn": "9780593831847",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Technology",
+      "search_index": "the infinity machine sebastian mallaby technology english"
+    },
+    {
+      "title": "The Genetic Book of the Dead",
+      "author": "Richard Dawkins",
+      "slug": "the-genetic-book-of-the-dead",
+      "cover_image": "genetic_book_dead.png",
+      "release_date": "2024",
+      "date_read": "2026-05-29",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "Dawkins treats genomes and bodies as archives, reading evolution as a record of vanished environments and ancestral paths.",
+      "rating": "",
+      "country": "United Kingdom",
+      "book_url": "https://openlibrary.org/books/OL50635025M/Genetic_Book_of_the_Dead",
+      "isbn": "9781804548080",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Science",
+      "search_index": "the genetic book of the dead richard dawkins science english"
     }
   ]
 }

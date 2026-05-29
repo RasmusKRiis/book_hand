@@ -171,7 +171,6 @@ function renderGridPlaceholders(count = INITIAL_GRID_ITEMS){
 
 function showLoadingState(){
   currentBook = null;
-  selectedSlug = '';
   updateBookLinkState();
   setHeroContent({
     title: 'Loading shelf...',
