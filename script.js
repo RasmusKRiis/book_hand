@@ -478,7 +478,7 @@ function handleKeydown(event){
 
 async function loadBooks(){
   try{
-    const response = await fetch(BOOKS_JSON_URL, { cache: 'force-cache' });
+    const response = await fetch(BOOKS_JSON_URL, { cache: 'no-cache' });
     if(!response.ok){
       throw new Error(`Books JSON request failed with status ${response.status}`);
     }
