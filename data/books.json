@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-29T20:40:44.101Z",
+  "generated_at": "2026-06-18T19:25:13.744Z",
   "count": 53,
   "books": [
     {
@@ -977,8 +977,8 @@
       "slug": "the-infinity-machine",
       "cover_image": "infinity_machine.png",
       "release_date": "2026",
-      "date_read": "2026-05-29",
-      "status": "reading",
+      "date_read": "2026-06-18",
+      "status": "read",
       "comment": "--",
       "ai_comment": "Mallaby traces DeepMind through Hassabis's ambitions, scientific breakthroughs, and the uneasy race toward superintelligence.",
       "rating": "",
