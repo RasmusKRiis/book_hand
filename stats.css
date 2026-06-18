@@ -136,6 +136,7 @@ a{color:inherit;}
   font-size:1.12rem;
 }
 
+.timeline-section .chart-subtitle{max-width:18rem;}
 .origins-heading .chart-index{color:#8f3445;}
 .origins-heading .chart-subtitle{color:#30362e;}
 .origins-heading{width:min(25rem,calc(100vw - 2.5rem));}

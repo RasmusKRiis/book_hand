@@ -211,16 +211,25 @@ class TimelineChart {
     const startYear = new Date(this.minTime).getUTCFullYear();
     const endYear = new Date(this.maxTime).getUTCFullYear();
     for (let year = startYear; year <= endYear; year += 1) {
-      const time = Date.UTC(year, 0, 1);
-      const y = scale(time, this.minTime, this.maxTime, -2.75, 2.25);
+      const bandStart = Math.max(this.minTime, Date.UTC(year, 0, 1));
+      const bandEnd = Math.min(this.maxTime, Date.UTC(year + 1, 0, 1) - 1);
+      const boundaryY = scale(bandStart, this.minTime, this.maxTime, -2.75, 2.25);
+      const labelY = scale((bandStart + bandEnd) / 2, this.minTime, this.maxTime, -2.75, 2.25);
+
       plot.add(createLine([
-        new THREE.Vector3(-3.85, y, -.35),
-        new THREE.Vector3(4.45, y, -.35)
+        new THREE.Vector3(-3.85, boundaryY, -.35),
+        new THREE.Vector3(4.45, boundaryY, -.35)
       ], 0x776f64, .2));
+
       const label = createTextSprite(String(year));
-      label.position.set(-2.85, year === startYear ? y + .28 : y, 0);
+      label.position.set(-4.3, labelY, 0);
       plot.add(label);
     }
+
+    plot.add(createLine([
+      new THREE.Vector3(-3.85, 2.25, -.35),
+      new THREE.Vector3(4.45, 2.25, -.35)
+    ], 0x776f64, .2));
 
     const geometry = new THREE.BoxGeometry(.23, .34, .1);
     usableBooks.forEach((book, index) => {
