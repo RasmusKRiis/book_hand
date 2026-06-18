@@ -1,0 +1,242 @@
+{
+  "Asako Yuzuki": {
+    "place": "Tokyo, Japan",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "precision": "city"
+  },
+  "Karen Cheung": {
+    "place": "Shenzhen, China",
+    "latitude": 22.5431,
+    "longitude": 114.0579,
+    "precision": "city"
+  },
+  "M.Emnrich et al": {
+    "place": "Multiple contributors, Japan",
+    "latitude": 36.2048,
+    "longitude": 138.2529,
+    "precision": "collective"
+  },
+  "Uketsu": {
+    "place": "Japan (identity undisclosed)",
+    "latitude": 36.2048,
+    "longitude": 138.2529,
+    "precision": "country"
+  },
+  "Kerry Brown": {
+    "place": "United Kingdom",
+    "latitude": 54,
+    "longitude": -2,
+    "precision": "country"
+  },
+  "Jessica Au": {
+    "place": "Australia",
+    "latitude": -25.2744,
+    "longitude": 133.7751,
+    "precision": "country"
+  },
+  "Haruki Murakami": {
+    "place": "Kyoto, Japan",
+    "latitude": 35.0116,
+    "longitude": 135.7681,
+    "precision": "city"
+  },
+  "Mieko Kawakami": {
+    "place": "Osaka, Japan",
+    "latitude": 34.6937,
+    "longitude": 135.5023,
+    "precision": "city"
+  },
+  "Mieko Kanai": {
+    "place": "Takasaki, Japan",
+    "latitude": 36.322,
+    "longitude": 139.003,
+    "precision": "city"
+  },
+  "Yoko Tawada": {
+    "place": "Tokyo, Japan",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "precision": "city"
+  },
+  "Andy Weir": {
+    "place": "Davis, California, USA",
+    "latitude": 38.5449,
+    "longitude": -121.7405,
+    "precision": "city"
+  },
+  "Susanna Clarke": {
+    "place": "Nottingham, England",
+    "latitude": 52.9548,
+    "longitude": -1.1581,
+    "precision": "city"
+  },
+  "Antony Dapiran": {
+    "place": "Australia",
+    "latitude": -25.2744,
+    "longitude": 133.7751,
+    "precision": "country"
+  },
+  "Hiroko Oyamada": {
+    "place": "Hiroshima, Japan",
+    "latitude": 34.3853,
+    "longitude": 132.4553,
+    "precision": "city"
+  },
+  "Bora Chung": {
+    "place": "Seoul, South Korea",
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "precision": "city"
+  },
+  "Yan Lianke": {
+    "place": "Henan, China",
+    "latitude": 34.7466,
+    "longitude": 113.6253,
+    "precision": "region"
+  },
+  "Miri Yu": {
+    "place": "Tsuchiura, Japan",
+    "latitude": 36.0719,
+    "longitude": 140.196,
+    "precision": "city"
+  },
+  "Sayaka Murata": {
+    "place": "Inzai, Chiba, Japan",
+    "latitude": 35.8322,
+    "longitude": 140.1458,
+    "precision": "city"
+  },
+  "Han Kang": {
+    "place": "Gwangju, South Korea",
+    "latitude": 35.1595,
+    "longitude": 126.8526,
+    "precision": "city"
+  },
+  "Junichiro Tanizaki": {
+    "place": "Nihonbashi, Tokyo, Japan",
+    "latitude": 35.683,
+    "longitude": 139.7744,
+    "precision": "city"
+  },
+  "Akira Otani": {
+    "place": "Tokyo, Japan",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "precision": "city"
+  },
+  "Karen Hao": {
+    "place": "United States",
+    "latitude": 39.8283,
+    "longitude": -98.5795,
+    "precision": "country"
+  },
+  "Jon Fosse": {
+    "place": "Haugesund, Norway",
+    "latitude": 59.4138,
+    "longitude": 5.268,
+    "precision": "city"
+  },
+  "Mustafa Suleyman": {
+    "place": "London, England",
+    "latitude": 51.5072,
+    "longitude": -0.1276,
+    "precision": "city"
+  },
+  "Chris Broad": {
+    "place": "Maidstone, England",
+    "latitude": 51.2704,
+    "longitude": 0.5227,
+    "precision": "city"
+  },
+  "Hans Rosling": {
+    "place": "Uppsala, Sweden",
+    "latitude": 59.8586,
+    "longitude": 17.6389,
+    "precision": "city"
+  },
+  "Min Jin Lee": {
+    "place": "Seoul, South Korea",
+    "latitude": 37.5665,
+    "longitude": 126.978,
+    "precision": "city"
+  },
+  "Kazuo Ishiguro": {
+    "place": "Nagasaki, Japan",
+    "latitude": 32.7503,
+    "longitude": 129.8777,
+    "precision": "city"
+  },
+  "Cixin Liu": {
+    "place": "Beijing, China",
+    "latitude": 39.9042,
+    "longitude": 116.4074,
+    "precision": "city"
+  },
+  "Siddhartha Mukherjee": {
+    "place": "New Delhi, India",
+    "latitude": 28.6139,
+    "longitude": 77.209,
+    "precision": "city"
+  },
+  "Yuval Noah Harari": {
+    "place": "Kiryat Ata, Israel",
+    "latitude": 32.805,
+    "longitude": 35.106,
+    "precision": "city"
+  },
+  "Alex Scarrow": {
+    "place": "Norwich, England",
+    "latitude": 52.6309,
+    "longitude": 1.2974,
+    "precision": "city"
+  },
+  "Guy Delisle": {
+    "place": "Quebec City, Canada",
+    "latitude": 46.8139,
+    "longitude": -71.208,
+    "precision": "city"
+  },
+  "Susan Choi": {
+    "place": "South Bend, Indiana, USA",
+    "latitude": 41.6764,
+    "longitude": -86.252,
+    "precision": "city"
+  },
+  "Monocle": {
+    "place": "London, England (organization)",
+    "latitude": 51.5072,
+    "longitude": -0.1276,
+    "precision": "organization"
+  },
+  "Susan Sontag": {
+    "place": "New York City, USA",
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "precision": "city"
+  },
+  "Nina Mingya Powles": {
+    "place": "Wellington, New Zealand",
+    "latitude": -41.2866,
+    "longitude": 174.7756,
+    "precision": "city"
+  },
+  "Yoshiharu Tsuge": {
+    "place": "Katsushika, Tokyo, Japan",
+    "latitude": 35.7435,
+    "longitude": 139.8472,
+    "precision": "city"
+  },
+  "Sebastian Mallaby": {
+    "place": "United Kingdom",
+    "latitude": 54,
+    "longitude": -2,
+    "precision": "country"
+  },
+  "Richard Dawkins": {
+    "place": "Nairobi, Kenya",
+    "latitude": -1.2921,
+    "longitude": 36.8219,
+    "precision": "city"
+  }
+}

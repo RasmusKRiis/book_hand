@@ -5,6 +5,7 @@ The live page is read-only. All new books and cover art are added locally and th
 ## Quick start
 - Serve locally so JSON fetch works: `python -m http.server 8000` and open `http://localhost:8000`.
 - Source data lives in `data/books.csv`; the frontend reads generated `data/books.json`. Covers live in `assets/`.
+- Clicking the `mimmi's shelf` title opens `stats.html`, which renders the reading timeline and author birthplace globe with Three.js. Birthplace coordinates live in `data/author_birthplaces.json`.
 - The grid shows only `status=reading` by default; toggle switches to all books. Sorting is automatic (newest `date_read` first; blanks float to the top).
 - URL state is preserved for filter/search/current book, so refreshing keeps the same view.
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="theme-color" content="#f1e6d4"/>
+  <title>Mimmi's Shelf Statistics</title>
+  <link rel="stylesheet" href="stats.css?v=20260618b"/>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="stats.js?v=20260618b"></script>
+</head>
+<body>
+  <header class="stats-nav">
+    <a class="stats-brand" href="index.html">mimmi's shelf</a>
+    <nav class="chart-tabs" aria-label="Statistics charts">
+      <a class="chart-tab is-active" href="#timeline">Dates</a>
+      <a class="chart-tab" href="#origins">Birthplaces</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="timeline" class="chart-section timeline-section" aria-labelledby="timelineTitle">
+      <canvas id="timelineCanvas" class="chart-canvas" aria-label="Three-dimensional chart of book publication years and dates finished"></canvas>
+
+      <div class="chart-heading">
+        <p class="chart-index">01 / Reading time</p>
+        <h1 id="timelineTitle">Published, then read.</h1>
+        <p class="chart-subtitle">Publication year runs left to right. Completion date rises from bottom to top.</p>
+      </div>
+
+      <div class="chart-summary" aria-live="polite">
+        <span><strong id="finishedCount">--</strong> finished</span>
+        <span><strong id="yearSpan">--</strong> publication years</span>
+      </div>
+
+      <div class="era-legend" aria-label="Publication era colors">
+        <span><i class="era-dot era-before"></i>Before 2000</span>
+        <span><i class="era-dot era-2000"></i>2000s</span>
+        <span><i class="era-dot era-2010"></i>2010s</span>
+        <span><i class="era-dot era-2020"></i>2020s</span>
+      </div>
+
+      <div id="timelineTooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
+      <a class="next-chart-link" href="#origins">Author birthplaces <span aria-hidden="true">↓</span></a>
+    </section>
+
+    <section id="origins" class="chart-section origins-section" aria-labelledby="originsTitle">
+      <canvas id="originsCanvas" class="chart-canvas" aria-label="Rotatable globe showing author birthplaces"></canvas>
+
+      <div class="chart-heading origins-heading">
+        <p class="chart-index">02 / Author origins</p>
+        <h2 id="originsTitle">Where the shelf begins.</h2>
+        <p class="chart-subtitle">Each marker connects a birthplace to every book by that author on the shelf.</p>
+      </div>
+
+      <div class="chart-summary origins-summary" aria-live="polite">
+        <span><strong id="authorCount">--</strong> authors</span>
+        <span><strong id="placeCount">--</strong> places</span>
+      </div>
+
+      <div class="precision-legend" aria-label="Birthplace precision">
+        <span><i class="precision-dot precision-city"></i>City</span>
+        <span><i class="precision-dot precision-region"></i>Region</span>
+        <span><i class="precision-dot precision-country"></i>Country fallback</span>
+      </div>
+
+      <div id="originTooltip" class="chart-tooltip origin-tooltip" role="status" aria-live="polite"></div>
+
+      <div id="originDetail" class="origin-detail" aria-live="polite">
+        <div>
+          <p id="originPlace" class="origin-place">Loading places...</p>
+          <p id="originAuthors" class="origin-authors"></p>
+        </div>
+        <div id="originBooks" class="origin-books"></div>
+      </div>
+    </section>
+  </main>
+
+  <p id="statsError" class="stats-error" hidden>The shelf statistics could not be loaded.</p>
+</body>
+</html>
