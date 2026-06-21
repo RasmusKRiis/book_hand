@@ -238,5 +238,11 @@
     "latitude": -1.2921,
     "longitude": 36.8219,
     "precision": "city"
+  },
+  "Yáng Shuāng-zǐ": {
+    "place": "Taichung, Taiwan",
+    "latitude": 24.1477,
+    "longitude": 120.6736,
+    "precision": "city"
   }
 }

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-18T19:25:13.744Z",
-  "count": 53,
+  "generated_at": "2026-06-21T11:54:28.161Z",
+  "count": 54,
   "books": [
     {
       "title": "Hooked",
@@ -1008,6 +1008,25 @@
       "translated_from": "",
       "genre": "Science",
       "search_index": "the genetic book of the dead richard dawkins science english"
+    },
+    {
+      "title": "Taiwan Travelogue",
+      "author": "Yáng Shuāng-zǐ",
+      "slug": "taiwan-travelogue",
+      "cover_image": "taiwan_travelogue.png",
+      "release_date": "2024",
+      "date_read": "2026-06-21",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "A layered fictional travel diary follows a Japanese writer and her Taiwanese interpreter through food, intimacy, colonial power, and contested memory.",
+      "rating": "",
+      "country": "Taiwan",
+      "book_url": "https://www.graywolfpress.org/books/taiwan-travelogue",
+      "isbn": "9781644453155",
+      "language": "English",
+      "translated_from": "Mandarin Chinese",
+      "genre": "Literary fiction",
+      "search_index": "taiwan travelogue yang shuang zi literary fiction english mandarin chinese"
     }
   ]
 }
