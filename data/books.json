@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-21T19:52:35.166Z",
-  "count": 54,
+  "generated_at": "2026-07-31T15:38:55.428Z",
+  "count": 57,
   "books": [
     {
       "title": "Hooked",
@@ -1027,6 +1027,63 @@
       "translated_from": "Mandarin Chinese",
       "genre": "Literary fiction",
       "search_index": "taiwan travelogue yang shuang zi literary fiction english mandarin chinese"
+    },
+    {
+      "title": "Battle Hymn of the Tiger Mother",
+      "author": "Amy Chua",
+      "slug": "battle-hymn-of-the-tiger-mother",
+      "cover_image": "battle_hymn_tiger_mother.png",
+      "release_date": "2011",
+      "date_read": "2026-07-30",
+      "status": "read",
+      "comment": "--",
+      "ai_comment": "A provocative parenting memoir that turns family discipline, ambition, and cultural expectation into a sharp argument about love and achievement.",
+      "rating": "",
+      "country": "USA",
+      "book_url": "https://www.penguinrandomhouse.com/books/308361/battle-hymn-of-the-tiger-mother-by-amy-chua/",
+      "isbn": "9780143120582",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Memoir",
+      "search_index": "battle hymn of the tiger mother amy chua memoir english"
+    },
+    {
+      "title": "Perfection",
+      "author": "Vincenzo Latronico",
+      "slug": "perfection",
+      "cover_image": "perfection.png",
+      "release_date": "2025",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "A spare satire of expatriate creatives whose curated Berlin life exposes the emptiness beneath taste, freedom, and online selfhood.",
+      "rating": "",
+      "country": "Italy",
+      "book_url": "https://fitzcarraldoeditions.com/books/perfection/",
+      "isbn": "9781804271049",
+      "language": "English",
+      "translated_from": "Italian",
+      "genre": "Literary fiction",
+      "search_index": "perfection vincenzo latronico literary fiction english italian"
+    },
+    {
+      "title": "Tree",
+      "author": "Aya Koda",
+      "slug": "tree",
+      "cover_image": "tree.png",
+      "release_date": "2026",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "Koda's zuihitsu essays follow Japan's trees as living presences, joining landscape, memory, loss, and close attention.",
+      "rating": "",
+      "country": "Japan",
+      "book_url": "https://www.penguin.co.uk/books/468203/tree-by-koda-aya/9780241735510",
+      "isbn": "9780241735510",
+      "language": "English",
+      "translated_from": "Japanese",
+      "genre": "Essays",
+      "search_index": "tree aya koda essays english japanese"
     }
   ]
 }

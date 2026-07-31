@@ -244,5 +244,23 @@
     "latitude": 24.1477,
     "longitude": 120.6736,
     "precision": "city"
+  },
+  "Amy Chua": {
+    "place": "Champaign, Illinois, USA",
+    "latitude": 40.1164,
+    "longitude": -88.2434,
+    "precision": "city"
+  },
+  "Vincenzo Latronico": {
+    "place": "Rome, Italy",
+    "latitude": 41.9028,
+    "longitude": 12.4964,
+    "precision": "city"
+  },
+  "Aya Koda": {
+    "place": "Tokyo, Japan",
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "precision": "city"
   }
 }
