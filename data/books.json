@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T15:38:55.428Z",
+  "generated_at": "2026-07-31T19:32:52.585Z",
   "count": 57,
   "books": [
     {
@@ -1032,7 +1032,7 @@
       "title": "Battle Hymn of the Tiger Mother",
       "author": "Amy Chua",
       "slug": "battle-hymn-of-the-tiger-mother",
-      "cover_image": "battle_hymn_tiger_mother.png",
+      "cover_image": "battle_hymn_tiger_mother_corrected.png",
       "release_date": "2011",
       "date_read": "2026-07-30",
       "status": "read",
@@ -1051,7 +1051,7 @@
       "title": "Perfection",
       "author": "Vincenzo Latronico",
       "slug": "perfection",
-      "cover_image": "perfection.png",
+      "cover_image": "perfection_corrected.png",
       "release_date": "2025",
       "date_read": "",
       "status": "reading",
@@ -1070,7 +1070,7 @@
       "title": "Tree",
       "author": "Aya Koda",
       "slug": "tree",
-      "cover_image": "tree.png",
+      "cover_image": "tree_corrected.png",
       "release_date": "2026",
       "date_read": "",
       "status": "reading",
