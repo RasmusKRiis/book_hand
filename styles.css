@@ -100,8 +100,6 @@ button{font:inherit;}
 .kindle.is-turning-to-front .kindle-inner{animation:kindle-turn-to-front .54s cubic-bezier(.34,.02,.18,1) both;will-change:transform;}
 .kindle.is-turning-to-back::after,
 .kindle.is-turning-to-front::after{animation:kindle-shadow .54s ease-in-out both;}
-.kindle.is-turning-to-back,
-.kindle.is-turning-to-front{cursor:progress;}
 .kindle-face{
   position:absolute;
   inset:0;

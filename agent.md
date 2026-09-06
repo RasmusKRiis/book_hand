@@ -10,6 +10,7 @@
 ## Behavior to preserve
 
 - The hero starts screen-side up and flips only when pressed or activated with Enter/Space. Ignore repeated activation while the turn is in progress.
+- Keep the normal pointer cursor during the turn; the flip is immediate interaction feedback, not a loading state.
 - The hero backside never adds title, author, or brand text over the artwork.
 - Every database book has a matching text-free wrap at `assets/kindle-wraps/<slug>.jpg`.
 - Each wrap fills the hero back and its library device. The hero front shell color is sampled from the wrap’s outer edge.
