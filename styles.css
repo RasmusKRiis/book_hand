@@ -206,8 +206,7 @@ button{font:inherit;}
   background-position:center;
   background-size:cover;
 }
-.kindle-back.has-custom-wrap .back-seam,
-.kindle-back.has-custom-wrap .cover-engraving{display:none;}
+.kindle-back.has-custom-wrap .back-seam{display:none;}
 .kindle-back::after{
   content:"";
   position:absolute;
@@ -226,34 +225,6 @@ button{font:inherit;}
   border-radius:18px;
   box-shadow:inset 0 0 18px rgba(0,0,0,.24);
 }
-.cover-engraving{
-  position:absolute;
-  inset:3% 2% 7%;
-  z-index:0;
-  overflow:hidden;
-  background:transparent;
-  -webkit-mask-image:radial-gradient(ellipse 72% 76% at 50% 43%,#000 48%,rgba(0,0,0,.82) 68%,transparent 100%);
-  mask-image:radial-gradient(ellipse 72% 76% at 50% 43%,#000 48%,rgba(0,0,0,.82) 68%,transparent 100%);
-}
-.cover-engraving::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(125deg,rgba(255,255,255,.055),transparent 36%,rgba(0,0,0,.18));
-  mix-blend-mode:soft-light;
-}
-.engraved-cover{
-  display:block;
-  width:100%;
-  height:100%;
-  opacity:0;
-  filter:drop-shadow(1px 1px 0 rgba(255,255,255,.07)) drop-shadow(-1px -1px 0 rgba(0,0,0,.7));
-  image-rendering:auto;
-  mix-blend-mode:screen;
-}
-.engraved-cover.is-ready{opacity:.82;}
-.kindle.is-flipped .engraved-cover.is-ready{animation:engraving-develop .68s steps(4,end);}
-.engraving-source{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
 .flip-hint{
   margin:0;
   color:#4b4a45;
@@ -396,57 +367,9 @@ button{font:inherit;}
   border-radius:9px;
   box-shadow:inset 0 0 11px rgba(0,0,0,.22);
 }
-.library-device::after{
-  content:"mimmi";
-  position:absolute;
-  right:0;
-  bottom:7%;
-  left:0;
-  color:#181818;
-  font-size:.58rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-align:center;
-  text-shadow:1px 1px 0 rgba(255,255,255,.055),-1px -1px 0 rgba(0,0,0,.9);
-}
-.library-device.has-custom-wrap::after{content:none;}
 .library-card:hover .library-device{
   box-shadow:0 27px 32px rgba(37,36,32,.24),0 7px 9px rgba(37,36,32,.18),inset 0 1px rgba(255,255,255,.09),inset 0 -2px 2px rgba(0,0,0,.4);
   transform:translateY(-9px) rotate(0deg);
-}
-.device-title,.device-author,.device-status{
-  position:relative;
-  z-index:1;
-  color:#181818;
-  text-align:center;
-  text-shadow:1px 1px 0 rgba(255,255,255,.07),-1px -1px 0 rgba(0,0,0,.9);
-}
-.device-title{
-  display:-webkit-box;
-  max-width:100%;
-  overflow:hidden;
-  font:700 clamp(1.15rem,2vw,1.65rem)/.95 Georgia,"Times New Roman",serif;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:5;
-}
-.device-author{
-  display:-webkit-box;
-  margin-top:.75rem;
-  overflow:hidden;
-  font-size:.62rem;
-  font-weight:800;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
-}
-.device-status{
-  position:absolute;
-  top:7%;
-  font-size:.53rem;
-  font-weight:800;
-  letter-spacing:.13em;
-  text-transform:uppercase;
 }
 .library-loading,.library-error{
   grid-column:1/-1;
@@ -463,13 +386,6 @@ button{font:inherit;}
   58%{opacity:.52;transform:translateY(30%);}
   100%{opacity:0;transform:translateY(110%);}
 }
-@keyframes engraving-develop{
-  0%{opacity:0;filter:contrast(2.4) brightness(.35);}
-  36%{opacity:.95;filter:contrast(.7) brightness(1.25);}
-  68%{opacity:.55;filter:contrast(1.8) brightness(.72);}
-  100%{opacity:.82;filter:drop-shadow(1px 1px 0 rgba(255,255,255,.07)) drop-shadow(-1px -1px 0 rgba(0,0,0,.7));}
-}
-
 @media (max-width:620px){
   .hero{padding-inline:.7rem;}
   .kindle{width:min(88vw,355px);}
@@ -486,8 +402,6 @@ button{font:inherit;}
   .filter-button{flex:1;}
   .library-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem .8rem;}
   .library-device{padding:.85rem;border-radius:11px;}
-  .device-title{font-size:clamp(.9rem,4.6vw,1.25rem);}
-  .device-author{font-size:.52rem;}
 }
 
 @media (prefers-reduced-motion:reduce){

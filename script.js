@@ -11,8 +11,6 @@ const bookRead = document.getElementById('bookRead');
 const bookRating = document.getElementById('bookRating');
 const bookNote = document.getElementById('bookNote');
 const screenProgress = document.getElementById('screenProgress');
-const heroCover = document.getElementById('heroCover');
-const engravedCover = document.getElementById('engravedCover');
 const kindleBack = document.getElementById('kindleBack');
 const libraryGrid = document.getElementById('libraryGrid');
 const libraryCount = document.getElementById('libraryCount');
@@ -20,16 +18,9 @@ const filterButtons = [...document.querySelectorAll('.filter-button')];
 
 let books = [];
 let currentBook = null;
-let coverRequestId = 0;
+let wrapRequestId = 0;
 let libraryView = 'read';
-
-const CUSTOM_WRAPS = {
-  butter: {
-    image:'assets/butter-kindle-wrap-v1.png',
-    color:'#f2b91d',
-    edge:'#9d6b08'
-  }
-};
+const wrapPaletteCache = new Map();
 
 function textOr(value, fallback = '—'){
   const text = String(value ?? '').trim();
@@ -72,11 +63,8 @@ function formatRating(value){
   return rating ? `${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}` : 'Not rated';
 }
 
-function coverUrl(book){
-  const coverId = String(book?.cover_id ?? '').trim();
-  return /^\d+$/.test(coverId)
-    ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg?default=false`
-    : '';
+function wrapUrl(book){
+  return `assets/kindle-wraps/${book.slug}.jpg`;
 }
 
 function setFlipped(flipped){
@@ -91,113 +79,78 @@ function setFlipped(flipped){
     : 'Press the reader to see the artwork back';
 }
 
-function renderDitheredEngraving(image){
-  const width = 280;
-  const height = 400;
-  engravedCover.width = width;
-  engravedCover.height = height;
-  const sourceCanvas = document.createElement('canvas');
-  sourceCanvas.width = width;
-  sourceCanvas.height = height;
-  const sourceContext = sourceCanvas.getContext('2d', { willReadFrequently:true });
-  const outputContext = engravedCover.getContext('2d');
-  if(!sourceContext || !outputContext){
-    throw new Error('Canvas is unavailable');
-  }
-
-  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
-  const cropWidth = width / scale;
-  const cropHeight = height / scale;
-  const sourceX = (image.naturalWidth - cropWidth) / 2;
-  const sourceY = (image.naturalHeight - cropHeight) / 2;
-  sourceContext.drawImage(image, sourceX, sourceY, cropWidth, cropHeight, 0, 0, width, height);
-
-  const source = sourceContext.getImageData(0, 0, width, height);
-  const output = outputContext.createImageData(width, height);
-  const luminance = new Float32Array(width * height);
-  const bayer = [
-    0,8,2,10,
-    12,4,14,6,
-    3,11,1,9,
-    15,7,13,5
-  ];
-  const palette = [0,44,86,132];
-
-  for(let pixel = 0; pixel < luminance.length; pixel += 1){
-    const sourceIndex = pixel * 4;
-    luminance[pixel] = source.data[sourceIndex] * .2126
-      + source.data[sourceIndex + 1] * .7152
-      + source.data[sourceIndex + 2] * .0722;
-  }
-
-  for(let y = 0; y < height; y += 1){
-    for(let x = 0; x < width; x += 1){
-      const pixel = y * width + x;
-      const center = luminance[pixel];
-      const left = luminance[y * width + Math.max(0, x - 1)];
-      const right = luminance[y * width + Math.min(width - 1, x + 1)];
-      const up = luminance[Math.max(0, y - 1) * width + x];
-      const down = luminance[Math.min(height - 1, y + 1) * width + x];
-      const edge = Math.min(255, Math.abs(right - left) + Math.abs(down - up));
-      const threshold = (bayer[(y % 4) * 4 + (x % 4)] - 7.5) * 4.5;
-      const etchedTone = Math.max(0, Math.min(255, center * .62 + edge * .95 + threshold));
-      const level = Math.max(0, Math.min(3, Math.round(etchedTone / 255 * 3)));
-      const value = palette[level];
-      const outputIndex = pixel * 4;
-      output.data[outputIndex] = value;
-      output.data[outputIndex + 1] = value;
-      output.data[outputIndex + 2] = value;
-      output.data[outputIndex + 3] = level === 0 ? 150 : 225;
-    }
-  }
-
-  outputContext.putImageData(output, 0, 0);
+function median(values){
+  values.sort((first, second) => first - second);
+  return values[Math.floor(values.length / 2)];
 }
 
-function renderEngraving(book){
-  const requestId = ++coverRequestId;
-  const url = coverUrl(book);
-  const customWrap = CUSTOM_WRAPS[book.slug];
+function sampleWrapPalette(image){
+  const width = 18;
+  const height = 27;
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext('2d', { willReadFrequently:true });
+  if(!context){
+    return null;
+  }
+  context.drawImage(image, 0, 0, width, height);
+  const pixels = context.getImageData(0, 0, width, height).data;
+  const channels = [[],[],[]];
+  for(let y = 0; y < height; y += 1){
+    for(let x = 0; x < width; x += 1){
+      if(x > 2 && x < width - 3 && y > 2 && y < height - 3){
+        continue;
+      }
+      const index = (y * width + x) * 4;
+      channels[0].push(pixels[index]);
+      channels[1].push(pixels[index + 1]);
+      channels[2].push(pixels[index + 2]);
+    }
+  }
+  const color = channels.map(median);
+  const edge = color.map((channel) => Math.round(channel * .48));
+  return {
+    color:`rgb(${color.join(',')})`,
+    edge:`rgb(${edge.join(',')})`
+  };
+}
 
-  heroKindle.classList.toggle('has-custom-wrap', Boolean(customWrap));
-  kindleBack.classList.toggle('has-custom-wrap', Boolean(customWrap));
-  kindleBack.style.removeProperty('--wrap-image');
-  heroKindle.style.removeProperty('--wrap-color');
-  heroKindle.style.removeProperty('--wrap-edge');
-  engravedCover.classList.remove('is-ready');
-  heroCover.removeAttribute('src');
-
-  if(customWrap){
-    kindleBack.style.setProperty('--wrap-image', `url("${customWrap.image}")`);
-    heroKindle.style.setProperty('--wrap-color', customWrap.color);
-    heroKindle.style.setProperty('--wrap-edge', customWrap.edge);
+function applyWrapPalette(book, imageUrl, requestId){
+  const cached = wrapPaletteCache.get(book.slug);
+  if(cached){
+    heroKindle.style.setProperty('--wrap-color', cached.color);
+    heroKindle.style.setProperty('--wrap-edge', cached.edge);
     return;
   }
-
-  if(!url){
-    return;
-  }
-
-  heroCover.onload = () => {
-    if(requestId !== coverRequestId){
+  const image = new Image();
+  image.onload = () => {
+    if(requestId !== wrapRequestId){
       return;
     }
     try{
-      renderDitheredEngraving(heroCover);
-      engravedCover.classList.add('is-ready');
+      const palette = sampleWrapPalette(image);
+      if(palette){
+        wrapPaletteCache.set(book.slug, palette);
+        heroKindle.style.setProperty('--wrap-color', palette.color);
+        heroKindle.style.setProperty('--wrap-edge', palette.edge);
+      }
     }catch(error){
       console.error(error);
-      engravedCover.classList.remove('is-ready');
     }
   };
-  heroCover.onerror = () => {
-    if(requestId !== coverRequestId){
-      return;
-    }
-    engravedCover.classList.remove('is-ready');
-  };
-  heroCover.crossOrigin = 'anonymous';
-  heroCover.src = url;
+  image.src = imageUrl;
+}
+
+function renderWrap(book){
+  const requestId = ++wrapRequestId;
+  const imageUrl = wrapUrl(book);
+  heroKindle.classList.add('has-custom-wrap');
+  kindleBack.classList.add('has-custom-wrap');
+  kindleBack.style.setProperty('--wrap-image', `url("${imageUrl}")`);
+  heroKindle.style.setProperty('--wrap-color', '#9a927d');
+  heroKindle.style.setProperty('--wrap-edge', '#49453b');
+  applyWrapPalette(book, imageUrl, requestId);
 }
 
 function updateUrl(book){
@@ -257,27 +210,8 @@ function renderLibrary(){
     const device = document.createElement('span');
     device.className = 'library-device';
 
-    const customWrap = CUSTOM_WRAPS[book.slug];
-    if(customWrap){
-      device.classList.add('has-custom-wrap');
-      device.style.setProperty('--wrap-image', `url("${customWrap.image}")`);
-      device.style.setProperty('--wrap-color', customWrap.color);
-      device.style.setProperty('--wrap-edge', customWrap.edge);
-    }else{
-      const status = document.createElement('span');
-      status.className = 'device-status';
-      status.textContent = formatStatus(book.status);
-
-      const title = document.createElement('span');
-      title.className = 'device-title';
-      title.textContent = textOr(book.title);
-
-      const author = document.createElement('span');
-      author.className = 'device-author';
-      author.textContent = textOr(book.author);
-
-      device.append(status, title, author);
-    }
+    device.classList.add('has-custom-wrap');
+    device.style.setProperty('--wrap-image', `url("${wrapUrl(book)}")`);
 
     card.appendChild(device);
     card.addEventListener('click', () => {
@@ -305,7 +239,7 @@ function selectBook(book, shouldUpdateUrl = false){
   kindleBack.setAttribute('aria-label', `Artwork for ${textOr(book.title)} by ${textOr(book.author)} printed on the reader back`);
 
   setFlipped(false);
-  renderEngraving(book);
+  renderWrap(book);
   renderLibrary();
 
   if(shouldUpdateUrl){
