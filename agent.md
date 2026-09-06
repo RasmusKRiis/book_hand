@@ -3,8 +3,8 @@
 ## Structure
 
 - `index.html` contains the hero reader, its front/back faces, the status toggle, and the library grid container.
-- `styles.css` defines the Kindle-inspired device system, e-ink screen, lift–edge–settle flip with restrained highlight sweep, title imprint, and full-shell artwork treatment.
-- `script.js` reads `data/books.json`, selects the requested or currently-reading book, updates the screen, samples the active wrap palette for the bezel, filters by reading status, and builds the other device backs.
+- `styles.css` defines the Kindle-inspired device system, textured hero edge, color-matched ambient pixel diffusion, e-ink screen, lift–edge–settle flip with restrained highlight sweep, title imprint, and full-shell artwork treatment.
+- `script.js` reads `data/books.json`, selects the requested or currently-reading book, updates the screen, samples the active wrap palette for the bezel and hero atmosphere, filters by reading status, and builds the other device backs.
 - `data/books.json` is the interface’s source of truth.
 
 ## Behavior to preserve
@@ -13,6 +13,8 @@
 - The hero backside never adds title, author, or brand text over the artwork.
 - Every database book has a matching text-free wrap at `assets/kindle-wraps/<slug>.jpg`.
 - Each wrap fills the hero back and its library device. The hero front shell color is sampled from the wrap’s outer edge.
+- The sampled `--hero-rgb` and `--hero-edge-rgb` values drive a low-opacity, paint-only halo and pixel diffusion. Keep the effect subtle and avoid filters so the flip remains responsive.
+- `.kindle-face::before` supplies the hero’s layered edge micro-texture; keep it pointer-transparent and concentrated around the outer border.
 - Shelf wraps and imprint colors are loaded lazily through `IntersectionObserver`; preserve this boundary so offscreen artwork does not compete with the hero animation.
 - The status toggle filters the lower library between `reading` and `read`; its state is preserved in `?view=`.
 - The library excludes the active hero book. Selecting another Kindle makes it active, returns the hero to its screen, updates the URL, and scrolls to the top.

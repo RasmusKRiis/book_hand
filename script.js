@@ -138,6 +138,8 @@ function sampleWrapPalette(image){
   return {
     color:`rgb(${color.join(',')})`,
     edge:`rgb(${edge.join(',')})`,
+    rgb:color.join(','),
+    edgeRgb:edge.join(','),
     ink:luminance > 146 ? '#11110f' : '#f4f1e7'
   };
 }
@@ -213,6 +215,8 @@ function applyWrapPalette(book, imageUrl, requestId){
     }
     heroKindle.style.setProperty('--wrap-color', palette.color);
     heroKindle.style.setProperty('--wrap-edge', palette.edge);
+    hero.style.setProperty('--hero-rgb', palette.rgb);
+    hero.style.setProperty('--hero-edge-rgb', palette.edgeRgb);
   });
 }
 
@@ -224,6 +228,8 @@ function renderWrap(book){
   kindleBack.style.setProperty('--wrap-image', `url("${imageUrl}")`);
   heroKindle.style.setProperty('--wrap-color', '#9a927d');
   heroKindle.style.setProperty('--wrap-edge', '#49453b');
+  hero.style.setProperty('--hero-rgb', '154,146,125');
+  hero.style.setProperty('--hero-edge-rgb', '73,69,59');
   applyWrapPalette(book, imageUrl, requestId);
 }
 
