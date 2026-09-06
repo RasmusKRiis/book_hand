@@ -34,7 +34,7 @@ button{font:inherit;}
   padding:clamp(2rem,5vw,4.5rem) 1.25rem 5.5rem;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 43% 49% at 50% 43%,rgba(var(--hero-complement-rgb),.21),transparent 72%),
+    radial-gradient(ellipse 43% 49% at 50% 43%,rgba(var(--hero-complement-rgb),.3),transparent 72%),
     radial-gradient(ellipse 30% 38% at 50% 43%,rgba(var(--hero-rgb),.055),transparent 74%),
     radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),transparent 42%),
     var(--desk);
@@ -49,20 +49,19 @@ button{font:inherit;}
   height:min(90svh,760px);
   pointer-events:none;
   background:
-    linear-gradient(rgba(var(--hero-complement-rgb),.3) 0 0) 7% 23%/5% 3% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.22) 0 0) 17% 13%/8% 4% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.18) 0 0) 11% 67%/10% 5% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.25) 0 0) 21% 80%/5% 3% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.28) 0 0) 93% 29%/6% 4% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.2) 0 0) 82% 16%/9% 5% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.18) 0 0) 89% 69%/8% 4% no-repeat,
-    linear-gradient(rgba(var(--hero-complement-rgb),.26) 0 0) 78% 83%/5% 3% no-repeat,
-    linear-gradient(90deg,rgba(var(--hero-complement-rgb),.05) 1px,transparent 1px) center/12px 12px,
-    linear-gradient(rgba(var(--hero-edge-rgb),.025) 1px,transparent 1px) center/12px 12px,
-    radial-gradient(ellipse at center,rgba(var(--hero-complement-rgb),.11),transparent 68%);
-  -webkit-mask-image:radial-gradient(ellipse 50% 55% at center,#000 0 42%,rgba(0,0,0,.58) 64%,transparent 88%);
-  mask-image:radial-gradient(ellipse 50% 55% at center,#000 0 42%,rgba(0,0,0,.58) 64%,transparent 88%);
-  opacity:.76;
+    linear-gradient(rgba(var(--hero-complement-rgb),.42) 0 0) 19% 22%/6% 4% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.29) 0 0) 25% 13%/9% 5% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.24) 0 0) 17% 58%/8% 6% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.34) 0 0) 23% 77%/5% 4% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.39) 0 0) 81% 27%/7% 5% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.27) 0 0) 75% 16%/10% 6% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.24) 0 0) 83% 62%/8% 5% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.35) 0 0) 77% 79%/6% 4% no-repeat,
+    conic-gradient(from 90deg at 1px 1px,transparent 75%,rgba(var(--hero-complement-rgb),.14) 0) center/18px 18px,
+    radial-gradient(ellipse at center,rgba(var(--hero-complement-rgb),.18),transparent 69%);
+  -webkit-mask-image:radial-gradient(ellipse 58% 60% at center,#000 0 48%,rgba(0,0,0,.72) 73%,transparent 100%);
+  mask-image:radial-gradient(ellipse 58% 60% at center,#000 0 48%,rgba(0,0,0,.72) 73%,transparent 100%);
+  opacity:.88;
   transform:translate(-50%,-50%);
 }
 .hero>*{z-index:1;}
@@ -386,6 +385,7 @@ button{font:inherit;}
   gap:clamp(1.5rem,4vw,3.5rem);
 }
 .library-card{
+  position:relative;
   min-width:0;
   aspect-ratio:.675;
   padding:0;
@@ -394,6 +394,7 @@ button{font:inherit;}
   contain-intrinsic-size:165px 245px;
   content-visibility:auto;
   cursor:pointer;
+  transition:transform .25s ease;
 }
 .library-card:focus-visible{outline:3px solid #232323;outline-offset:7px;border-radius:16px;}
 .library-device{
@@ -458,9 +459,13 @@ button{font:inherit;}
   -webkit-box-orient:vertical;
   -webkit-line-clamp:2;
 }
+.library-card:hover{
+  z-index:2;
+  transform:translateY(-7px);
+}
 .library-card:hover .library-device{
   box-shadow:0 27px 32px rgba(37,36,32,.24),0 7px 9px rgba(37,36,32,.18),inset 0 1px rgba(255,255,255,.09),inset 0 -2px 2px rgba(0,0,0,.4);
-  transform:translateY(-9px) rotate(0deg);
+  transform:rotate(0deg);
 }
 .library-loading,.library-error{
   grid-column:1/-1;
