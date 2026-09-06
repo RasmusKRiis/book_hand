@@ -134,15 +134,10 @@ function sampleWrapPalette(image){
   }
   const color = channels.map(median);
   const edge = color.map((channel) => Math.round(channel * .48));
-  const desk = [199,197,190];
-  const complement = color.map((channel, index) => Math.round((255 - channel) * .68 + desk[index] * .32));
   const luminance = color[0] * .2126 + color[1] * .7152 + color[2] * .0722;
   return {
     color:`rgb(${color.join(',')})`,
     edge:`rgb(${edge.join(',')})`,
-    rgb:color.join(','),
-    edgeRgb:edge.join(','),
-    complementRgb:complement.join(','),
     ink:luminance > 146 ? '#11110f' : '#f4f1e7'
   };
 }
@@ -218,9 +213,6 @@ function applyWrapPalette(book, imageUrl, requestId){
     }
     heroKindle.style.setProperty('--wrap-color', palette.color);
     heroKindle.style.setProperty('--wrap-edge', palette.edge);
-    hero.style.setProperty('--hero-rgb', palette.rgb);
-    hero.style.setProperty('--hero-edge-rgb', palette.edgeRgb);
-    hero.style.setProperty('--hero-complement-rgb', palette.complementRgb);
   });
 }
 
@@ -233,9 +225,6 @@ function renderWrap(book){
   hero.style.setProperty('--hero-wrap-image', `url("${imageUrl}")`);
   heroKindle.style.setProperty('--wrap-color', '#9a927d');
   heroKindle.style.setProperty('--wrap-edge', '#49453b');
-  hero.style.setProperty('--hero-rgb', '154,146,125');
-  hero.style.setProperty('--hero-edge-rgb', '73,69,59');
-  hero.style.setProperty('--hero-complement-rgb', '138,142,153');
   applyWrapPalette(book, imageUrl, requestId);
 }
 

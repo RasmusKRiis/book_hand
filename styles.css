@@ -21,9 +21,6 @@ body{
 button{font:inherit;}
 
 .hero{
-  --hero-rgb:154,146,125;
-  --hero-edge-rgb:73,69,59;
-  --hero-complement-rgb:138,142,153;
   --hero-wrap-image:none;
   position:relative;
   isolation:isolate;
@@ -35,28 +32,10 @@ button{font:inherit;}
   padding:clamp(2rem,5vw,4.5rem) 1.25rem 5.5rem;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 43% 49% at 50% 43%,rgba(var(--hero-complement-rgb),.3),transparent 72%),
-    radial-gradient(ellipse 30% 38% at 50% 43%,rgba(var(--hero-rgb),.055),transparent 74%),
-    radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),transparent 42%),
+    radial-gradient(ellipse 43% 49% at 50% 43%,rgba(255,255,255,.19),rgba(80,79,73,.035) 60%,transparent 74%),
     var(--desk);
 }
-.hero::before{
-  content:"";
-  position:absolute;
-  top:43%;
-  left:50%;
-  z-index:0;
-  width:min(122vw,760px);
-  height:min(90svh,760px);
-  pointer-events:none;
-  background:
-    conic-gradient(from 90deg at 1px 1px,transparent 75%,rgba(var(--hero-complement-rgb),.11) 0) center/18px 18px,
-    radial-gradient(ellipse at center,rgba(var(--hero-complement-rgb),.22),transparent 70%);
-  -webkit-mask-image:radial-gradient(ellipse 58% 60% at center,#000 0 48%,rgba(0,0,0,.72) 73%,transparent 100%);
-  mask-image:radial-gradient(ellipse 58% 60% at center,#000 0 48%,rgba(0,0,0,.72) 73%,transparent 100%);
-  opacity:.58;
-  transform:translate(-50%,-50%);
-}
+.hero::before,
 .hero::after{
   content:"";
   position:absolute;
@@ -67,14 +46,20 @@ button{font:inherit;}
   aspect-ratio:.675;
   pointer-events:none;
   background:var(--hero-wrap-image) center/cover no-repeat;
-  box-shadow:
-    18px 22px 0 rgba(var(--hero-edge-rgb),.12),
-    34px 40px 0 rgba(var(--hero-complement-rgb),.08);
-  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 44%,rgba(0,0,0,.72) 62%,transparent 84%);
-  mask-image:radial-gradient(ellipse at center,#000 0 44%,rgba(0,0,0,.72) 62%,transparent 84%);
-  opacity:.16;
-  transform:translate(-50%,-49%) perspective(1100px) rotateX(2deg) rotateY(-8deg) scale(1.04);
+  filter:grayscale(1) contrast(1.85);
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 0 42%,rgba(0,0,0,.7) 60%,transparent 82%);
+  mask-image:radial-gradient(ellipse at center,#000 0 42%,rgba(0,0,0,.7) 60%,transparent 82%);
   transform-origin:center;
+}
+.hero::before{
+  mix-blend-mode:multiply;
+  opacity:.14;
+  transform:translate(calc(-50% + 4px),calc(-49% + 5px)) scale(1.04);
+}
+.hero::after{
+  mix-blend-mode:screen;
+  opacity:.19;
+  transform:translate(calc(-50% - 3px),calc(-49% - 4px)) scale(1.04);
 }
 .hero>*{z-index:1;}
 

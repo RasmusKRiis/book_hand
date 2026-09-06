@@ -8,7 +8,7 @@ A single-page reading library designed around an e-ink reader.
 - Pressing the reader flips it to an artwork-only back with no title, author, or branding overlay.
 - Every book has an original limited-ink wrap informed by its local reference cover. Artwork runs edge to edge on both the hero and shelf Kindle backs.
 - The hero Kindle samples the artwork’s edge color so its front shell automatically belongs to the same wrap.
-- A large, ghosted impression of the selected wrap sits on a shallow perspective plane behind the hero, fading into a fine complementary pixel texture for depth without becoming a second cover.
+- The selected wrap appears behind the hero as a colorless blind emboss: offset grayscale highlight and shadow impressions suggest artwork physically pressed into the page without ink.
 - Layered highlights, shadows, and irregular micro-lines give the hero Kindle’s edge a more tactile, lightly worn structure.
 - The hero uses a short lift–edge–settle turn with a responsive floor shadow and a restrained highlight sweep across the returning artwork.
 - The reader keeps its normal pointer throughout the flip; the animation never presents itself as a loading state.
