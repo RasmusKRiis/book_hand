@@ -14,7 +14,7 @@
 - The hero backside never adds title, author, or brand text over the artwork.
 - Every database book has a matching text-free wrap at `assets/kindle-wraps/<slug>.jpg`.
 - Each wrap fills the hero back and its library device. The hero front shell color is sampled from the wrap’s outer edge.
-- The hero receives its selected wrap through `--hero-wrap-image`; paired grayscale highlight and shadow layers create a neutral blind-emboss impression. Never tint this background artwork—the relief should look pressed into the page without ink.
+- Hero and library backgrounds share a medium-dark slate/aubergine palette. Smooth light pools are driven by the active wrap’s sampled `--active-glow-rgb`; do not add background pixels or filtered artwork.
 - `.kindle-face::before` supplies the hero’s layered edge micro-texture; keep it pointer-transparent and concentrated around the outer border.
 - Shelf wraps and imprint colors are loaded lazily through `IntersectionObserver`; preserve this boundary so offscreen artwork does not compete with the hero animation.
 - Lift the library card itself on hover, not its contained device. Do not add paint containment or `content-visibility` to the card: either clips the rotated Kindle edges and its outside shadow.
@@ -25,5 +25,5 @@
 
 ## Visual direction
 
-- Treat the device as the entire interface: artwork-colored hardware, warm monochrome e-ink, restrained typography, realistic depth, and direct-to-shell printing.
+- Treat the device as the center of a playful dusk reading room: artwork-colored hardware, warm monochrome e-ink, smooth wrap-matched light, realistic depth, and direct-to-shell printing.
 - Library items are always shown backside-first with a direct-to-shell title imprint in luminance-selected black or warm white; do not reintroduce title label boxes, cover cards, mosaic blocks, hands, newspaper framing, or simulated 3D books.

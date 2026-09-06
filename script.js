@@ -134,10 +134,12 @@ function sampleWrapPalette(image){
   }
   const color = channels.map(median);
   const edge = color.map((channel) => Math.round(channel * .48));
+  const glow = color.map((channel) => Math.round(channel * .72 + 255 * .28));
   const luminance = color[0] * .2126 + color[1] * .7152 + color[2] * .0722;
   return {
     color:`rgb(${color.join(',')})`,
     edge:`rgb(${edge.join(',')})`,
+    glowRgb:glow.join(','),
     ink:luminance > 146 ? '#11110f' : '#f4f1e7'
   };
 }
@@ -213,6 +215,7 @@ function applyWrapPalette(book, imageUrl, requestId){
     }
     heroKindle.style.setProperty('--wrap-color', palette.color);
     heroKindle.style.setProperty('--wrap-edge', palette.edge);
+    document.documentElement.style.setProperty('--active-glow-rgb', palette.glowRgb);
   });
 }
 
@@ -222,7 +225,6 @@ function renderWrap(book){
   heroKindle.classList.add('has-custom-wrap');
   kindleBack.classList.add('has-custom-wrap');
   kindleBack.style.setProperty('--wrap-image', `url("${imageUrl}")`);
-  hero.style.setProperty('--hero-wrap-image', `url("${imageUrl}")`);
   heroKindle.style.setProperty('--wrap-color', '#9a927d');
   heroKindle.style.setProperty('--wrap-edge', '#49453b');
   applyWrapPalette(book, imageUrl, requestId);
