@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-05T19:23:58.852Z",
-  "count": 57,
+  "generated_at": "2026-09-06T20:09:38Z",
+  "count": 59,
   "books": [
     {
       "title": "Hooked",
@@ -1141,6 +1141,46 @@
       "translated_from": "Japanese",
       "genre": "Essays",
       "search_index": "tree aya koda essays english japanese"
+    },
+    {
+      "title": "The Dark Forest",
+      "author": "Cixin Liu",
+      "slug": "the-dark-forest",
+      "cover_image": "",
+      "cover_id": "",
+      "release_date": "2025",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "The deluxe second volume of the Three-Body series turns the silent universe into a cosmic forest where revealing yourself can be fatal.",
+      "rating": "",
+      "country": "China",
+      "book_url": "https://www.bloomsbury.com/uk/dark-forest-9781035920891/",
+      "isbn": "9781035920891",
+      "language": "English",
+      "translated_from": "Mandarin Chinese",
+      "genre": "Science fiction",
+      "search_index": "the dark forest cixin liu three body problem book 2 deluxe special edition science fiction english mandarin chinese"
+    },
+    {
+      "title": "Taipei Story",
+      "author": "R. F. Kuang",
+      "slug": "taipei-story",
+      "cover_image": "",
+      "cover_id": "",
+      "release_date": "2026",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "A Chinese American student spends a summer in Taipei confronting language, grief, family silences, and the uneasy fantasy of returning home.",
+      "rating": "",
+      "country": "USA",
+      "book_url": "https://books.google.com/books/about/Taipei_Story.html?id=pteiEQAAQBAJ",
+      "isbn": "9780063473744",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Literary fiction",
+      "search_index": "taipei story r f kuang literary fiction english taiwan grief language family diaspora"
     }
   ]
 }
