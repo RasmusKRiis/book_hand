@@ -1,81 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="theme-color" content="#d7d1f0"/>
-  <meta name="description" content="Mimmi's color-shifting pixel reading shelf."/>
-  <title>Mimmi’s Shelf</title>
-  <link rel="stylesheet" href="styles.css?v=20260906a"/>
-  <script src="script.js?v=20260906b" defer></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#c7c5be"/>
+  <meta name="description" content="Mimmi’s books displayed as a tactile e-ink reader library."/>
+  <title>Mimmi’s Kindle Library</title>
+  <link rel="stylesheet" href="styles.css?v=20260906-kindle-1"/>
+  <script src="script.js?v=20260906-kindle-1" defer></script>
 </head>
 <body>
-  <div class="wrapper">
-    <header class="top-bar">
-      <a href="index.html" class="site-title" aria-label="Mimmi's Shelf home">mimmi’s shelf</a>
+  <main>
+    <section class="hero" aria-labelledby="bookTitle">
+      <div
+        id="heroKindle"
+        class="kindle"
+        role="button"
+        tabindex="0"
+        aria-pressed="false"
+        aria-label="Flip the reader to reveal the engraved cover"
+      >
+        <div class="kindle-inner">
+          <article class="kindle-face kindle-front">
+            <div class="eink-screen" aria-live="polite">
+              <header class="screen-status">
+                <span>MIMMI READER</span>
+                <span id="screenProgress">LIBRARY</span>
+              </header>
 
-      <div class="control-panel" aria-label="Shelf controls">
-        <label class="search-field" for="searchInput">
-          <span class="search-label">Find a book</span>
-          <input id="searchInput" class="search-input" type="search" placeholder="Title or author" autocomplete="off"/>
-        </label>
+              <div class="screen-content">
+                <p id="bookStatus" class="screen-kicker">Opening library</p>
+                <h1 id="bookTitle">Loading…</h1>
+                <p class="screen-author">by <span id="bookAuthor">—</span></p>
 
-        <div class="filter-box">
-          <label class="toggle" title="Switch between current books and the full shelf">
-            <input type="checkbox" id="filterToggle"/>
-            <span class="slider" aria-hidden="true"></span>
-            <span class="sr-only">Show all books</span>
-          </label>
-          <span id="filterLabel" class="filter-label">Currently Reading</span>
+                <dl class="screen-details">
+                  <div>
+                    <dt>Published</dt>
+                    <dd id="bookReleased">—</dd>
+                  </div>
+                  <div>
+                    <dt>Read</dt>
+                    <dd id="bookRead">—</dd>
+                  </div>
+                  <div>
+                    <dt>Rating</dt>
+                    <dd id="bookRating">—</dd>
+                  </div>
+                </dl>
+
+                <blockquote id="bookNote" class="screen-note">Preparing your next read.</blockquote>
+              </div>
+
+              <footer class="screen-footer">
+                <span>BOOK DETAILS</span>
+                <span>PRESS TO FLIP</span>
+              </footer>
+            </div>
+            <span class="device-mark" aria-hidden="true">mimmi</span>
+          </article>
+
+          <article class="kindle-face kindle-back" aria-label="Engraved book cover">
+            <span class="back-seam" aria-hidden="true"></span>
+            <div class="cover-engraving" aria-hidden="true">
+              <img id="heroCover" alt=""/>
+              <span id="coverFallback" class="cover-fallback"></span>
+            </div>
+            <p id="backTitle" class="back-title">Loading…</p>
+            <p id="backAuthor" class="back-author">—</p>
+            <span class="back-mark" aria-hidden="true">mimmi</span>
+          </article>
         </div>
       </div>
-    </header>
 
-    <main>
-      <section id="showcase" class="showcase" aria-labelledby="title">
-        <div class="book-zone">
-          <p class="pixel-label">On the desk</p>
-          <button id="bookLink" class="book-display" type="button" aria-label="Open current book page">
-            <span id="bookObject" class="book-object" aria-hidden="true">
-              <canvas id="pixelCover" class="pixel-cover" width="12" height="18"></canvas>
-            </span>
-            <img id="cover" class="cover-source" alt=""/>
-          </button>
-        </div>
+      <p id="flipHint" class="flip-hint">Press the reader to see the engraved cover</p>
+      <a class="scroll-cue" href="#library">All books <span aria-hidden="true">↓</span></a>
+    </section>
 
-        <article id="back" class="book-back">
-          <p class="pixel-label">Selected book</p>
-          <h1 id="title"></h1>
-          <p class="byline">by <span id="author"></span></p>
-
-          <ul class="book-facts">
-            <li><strong>Released</strong><span id="released"></span></li>
-            <li><strong>Read</strong><span id="read"></span></li>
-            <li class="rating-line">
-              <strong>Rating</strong>
-              <span id="stars" class="stars" aria-label="Star rating"></span>
-            </li>
-          </ul>
-
-          <div class="comment-block">
-            <p class="label">Notes</p>
-            <p id="aiComment" class="note-text"></p>
-          </div>
-
-          <p class="open-hint">Click the cover to open the book page ↗</p>
-        </article>
-      </section>
-
-      <div class="pixel-divider" aria-hidden="true"></div>
-
-      <section class="shelf-section" aria-labelledby="shelfTitle">
-        <div class="shelf-heading">
-          <h2 id="shelfTitle">The shelf</h2>
-          <p><span id="shelfCount">—</span> books</p>
-        </div>
-        <section id="grid" class="grid" aria-live="polite"></section>
-      </section>
-    </main>
-  </div>
+    <section id="library" class="library" aria-labelledby="libraryTitle">
+      <header class="library-header">
+        <p>Your library</p>
+        <h2 id="libraryTitle">Choose a Kindle</h2>
+        <span id="libraryCount">— books</span>
+      </header>
+      <div id="libraryGrid" class="library-grid" aria-live="polite"></div>
+    </section>
+  </main>
 </body>
 </html>
