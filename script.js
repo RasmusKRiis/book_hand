@@ -13,9 +13,7 @@ const bookNote = document.getElementById('bookNote');
 const screenProgress = document.getElementById('screenProgress');
 const heroCover = document.getElementById('heroCover');
 const engravedCover = document.getElementById('engravedCover');
-const coverFallback = document.getElementById('coverFallback');
-const backTitle = document.getElementById('backTitle');
-const backAuthor = document.getElementById('backAuthor');
+const kindleBack = document.getElementById('kindleBack');
 const libraryGrid = document.getElementById('libraryGrid');
 const libraryCount = document.getElementById('libraryCount');
 const filterButtons = [...document.querySelectorAll('.filter-button')];
@@ -24,6 +22,14 @@ let books = [];
 let currentBook = null;
 let coverRequestId = 0;
 let libraryView = 'read';
+
+const CUSTOM_WRAPS = {
+  butter: {
+    image:'assets/butter-kindle-wrap-v1.png',
+    color:'#f2b91d',
+    edge:'#9d6b08'
+  }
+};
 
 function textOr(value, fallback = '—'){
   const text = String(value ?? '').trim();
@@ -78,11 +84,11 @@ function setFlipped(flipped){
   heroKindle.setAttribute('aria-pressed', String(flipped));
   heroKindle.setAttribute(
     'aria-label',
-    flipped ? 'Flip the reader back to the book details' : 'Flip the reader to reveal the engraved cover'
+    flipped ? 'Flip the reader back to the book details' : 'Flip the reader to reveal the artwork back'
   );
   flipHint.textContent = flipped
     ? 'Press the reader to return to the details'
-    : 'Press the reader to see the engraved cover';
+    : 'Press the reader to see the artwork back';
 }
 
 function renderDitheredEngraving(image){
@@ -151,12 +157,22 @@ function renderDitheredEngraving(image){
 function renderEngraving(book){
   const requestId = ++coverRequestId;
   const url = coverUrl(book);
-  const fallbackLetter = textOr(book.title, '?').charAt(0).toUpperCase();
+  const customWrap = CUSTOM_WRAPS[book.slug];
 
+  heroKindle.classList.toggle('has-custom-wrap', Boolean(customWrap));
+  kindleBack.classList.toggle('has-custom-wrap', Boolean(customWrap));
+  kindleBack.style.removeProperty('--wrap-image');
+  heroKindle.style.removeProperty('--wrap-color');
+  heroKindle.style.removeProperty('--wrap-edge');
   engravedCover.classList.remove('is-ready');
-  coverFallback.classList.remove('is-hidden');
-  coverFallback.textContent = fallbackLetter;
   heroCover.removeAttribute('src');
+
+  if(customWrap){
+    kindleBack.style.setProperty('--wrap-image', `url("${customWrap.image}")`);
+    heroKindle.style.setProperty('--wrap-color', customWrap.color);
+    heroKindle.style.setProperty('--wrap-edge', customWrap.edge);
+    return;
+  }
 
   if(!url){
     return;
@@ -169,11 +185,9 @@ function renderEngraving(book){
     try{
       renderDitheredEngraving(heroCover);
       engravedCover.classList.add('is-ready');
-      coverFallback.classList.add('is-hidden');
     }catch(error){
       console.error(error);
       engravedCover.classList.remove('is-ready');
-      coverFallback.classList.remove('is-hidden');
     }
   };
   heroCover.onerror = () => {
@@ -181,7 +195,6 @@ function renderEngraving(book){
       return;
     }
     engravedCover.classList.remove('is-ready');
-    coverFallback.classList.remove('is-hidden');
   };
   heroCover.crossOrigin = 'anonymous';
   heroCover.src = url;
@@ -244,19 +257,28 @@ function renderLibrary(){
     const device = document.createElement('span');
     device.className = 'library-device';
 
-    const status = document.createElement('span');
-    status.className = 'device-status';
-    status.textContent = formatStatus(book.status);
+    const customWrap = CUSTOM_WRAPS[book.slug];
+    if(customWrap){
+      device.classList.add('has-custom-wrap');
+      device.style.setProperty('--wrap-image', `url("${customWrap.image}")`);
+      device.style.setProperty('--wrap-color', customWrap.color);
+      device.style.setProperty('--wrap-edge', customWrap.edge);
+    }else{
+      const status = document.createElement('span');
+      status.className = 'device-status';
+      status.textContent = formatStatus(book.status);
 
-    const title = document.createElement('span');
-    title.className = 'device-title';
-    title.textContent = textOr(book.title);
+      const title = document.createElement('span');
+      title.className = 'device-title';
+      title.textContent = textOr(book.title);
 
-    const author = document.createElement('span');
-    author.className = 'device-author';
-    author.textContent = textOr(book.author);
+      const author = document.createElement('span');
+      author.className = 'device-author';
+      author.textContent = textOr(book.author);
 
-    device.append(status, title, author);
+      device.append(status, title, author);
+    }
+
     card.appendChild(device);
     card.addEventListener('click', () => {
       selectBook(book, true);
@@ -280,8 +302,7 @@ function selectBook(book, shouldUpdateUrl = false){
   bookRating.textContent = formatRating(book.rating);
   bookNote.textContent = textOr(book.ai_comment, 'No reading note yet.');
   screenProgress.textContent = `${index + 1} / ${books.length}`;
-  backTitle.textContent = textOr(book.title);
-  backAuthor.textContent = textOr(book.author);
+  kindleBack.setAttribute('aria-label', `Artwork for ${textOr(book.title)} by ${textOr(book.author)} printed on the reader back`);
 
   setFlipped(false);
   renderEngraving(book);
@@ -301,9 +322,7 @@ function showLoadError(){
   bookRating.textContent = '—';
   bookNote.textContent = 'The book database could not be loaded. Refresh the page and try again.';
   screenProgress.textContent = 'OFFLINE';
-  backTitle.textContent = 'Library unavailable';
-  backAuthor.textContent = '—';
-  coverFallback.textContent = '!';
+  kindleBack.setAttribute('aria-label', 'Library unavailable');
   libraryCount.textContent = '0 books';
   libraryGrid.innerHTML = '<p class="library-error">The library could not be opened.</p>';
 }

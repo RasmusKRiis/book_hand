@@ -71,6 +71,10 @@ button{font:inherit;}
   padding:34px 21px 49px;
   background:linear-gradient(112deg,#333 0,#1f1f1f 48%,#181818 100%);
 }
+.kindle.has-custom-wrap .kindle-front{
+  border-color:var(--wrap-edge);
+  background:linear-gradient(112deg,rgba(255,255,255,.2),transparent 38%,rgba(85,52,0,.18)),var(--wrap-color);
+}
 .kindle-front::after{
   content:"";
   position:absolute;
@@ -195,6 +199,15 @@ button{font:inherit;}
     linear-gradient(115deg,rgba(255,255,255,.035),transparent 32%,rgba(0,0,0,.13) 72%),
     repeating-linear-gradient(88deg,transparent 0 3px,rgba(255,255,255,.012) 3px 4px);
 }
+.kindle-back.has-custom-wrap{
+  border-color:var(--wrap-edge);
+  background-color:var(--wrap-color);
+  background-image:var(--wrap-image);
+  background-position:center;
+  background-size:cover;
+}
+.kindle-back.has-custom-wrap .back-seam,
+.kindle-back.has-custom-wrap .cover-engraving{display:none;}
 .kindle-back::after{
   content:"";
   position:absolute;
@@ -241,50 +254,6 @@ button{font:inherit;}
 .engraved-cover.is-ready{opacity:.82;}
 .kindle.is-flipped .engraved-cover.is-ready{animation:engraving-develop .68s steps(4,end);}
 .engraving-source{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;}
-.cover-fallback{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  color:#141414;
-  font:700 clamp(3.5rem,15vw,6.5rem)/1 Georgia,"Times New Roman",serif;
-  text-shadow:1px 1px 0 rgba(255,255,255,.07),-1px -1px 0 rgba(0,0,0,.75);
-}
-.cover-fallback.is-hidden{display:none;}
-.back-title,.back-author{
-  position:relative;
-  z-index:1;
-  margin:0;
-  color:#171717;
-  text-align:center;
-  text-shadow:1px 1px 0 rgba(255,255,255,.065),-1px -1px 0 rgba(0,0,0,.8);
-}
-.back-title{
-  display:-webkit-box;
-  position:absolute;
-  right:11%;
-  bottom:13%;
-  left:11%;
-  margin:0;
-  overflow:hidden;
-  font:700 clamp(1.25rem,4.7vw,2rem)/.98 Georgia,"Times New Roman",serif;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:3;
-}
-.back-author{position:absolute;right:11%;bottom:9%;left:11%;margin:0;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-.back-mark{
-  position:absolute;
-  right:0;
-  bottom:4%;
-  left:0;
-  color:#151515;
-  font-size:.7rem;
-  font-weight:800;
-  letter-spacing:.15em;
-  text-align:center;
-  text-shadow:1px 1px 0 rgba(255,255,255,.06),-1px -1px 0 rgba(0,0,0,.9);
-}
-
 .flip-hint{
   margin:0;
   color:#4b4a45;
@@ -409,6 +378,13 @@ button{font:inherit;}
   transform:rotate(var(--device-tilt,0deg));
   transition:transform .25s ease,box-shadow .25s ease;
 }
+.library-device.has-custom-wrap{
+  border-color:var(--wrap-edge);
+  background-color:var(--wrap-color);
+  background-image:var(--wrap-image);
+  background-position:center;
+  background-size:cover;
+}
 .library-device::before{
   content:"";
   position:absolute;
@@ -433,6 +409,7 @@ button{font:inherit;}
   text-align:center;
   text-shadow:1px 1px 0 rgba(255,255,255,.055),-1px -1px 0 rgba(0,0,0,.9);
 }
+.library-device.has-custom-wrap::after{content:none;}
 .library-card:hover .library-device{
   box-shadow:0 27px 32px rgba(37,36,32,.24),0 7px 9px rgba(37,36,32,.18),inset 0 1px rgba(255,255,255,.09),inset 0 -2px 2px rgba(0,0,0,.4);
   transform:translateY(-9px) rotate(0deg);
