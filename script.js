@@ -12,15 +12,18 @@ const bookRating = document.getElementById('bookRating');
 const bookNote = document.getElementById('bookNote');
 const screenProgress = document.getElementById('screenProgress');
 const heroCover = document.getElementById('heroCover');
+const engravedCover = document.getElementById('engravedCover');
 const coverFallback = document.getElementById('coverFallback');
 const backTitle = document.getElementById('backTitle');
 const backAuthor = document.getElementById('backAuthor');
 const libraryGrid = document.getElementById('libraryGrid');
 const libraryCount = document.getElementById('libraryCount');
+const filterButtons = [...document.querySelectorAll('.filter-button')];
 
 let books = [];
 let currentBook = null;
 let coverRequestId = 0;
+let libraryView = 'read';
 
 function textOr(value, fallback = '—'){
   const text = String(value ?? '').trim();
@@ -82,12 +85,75 @@ function setFlipped(flipped){
     : 'Press the reader to see the engraved cover';
 }
 
+function renderDitheredEngraving(image){
+  const width = 280;
+  const height = 400;
+  engravedCover.width = width;
+  engravedCover.height = height;
+  const sourceCanvas = document.createElement('canvas');
+  sourceCanvas.width = width;
+  sourceCanvas.height = height;
+  const sourceContext = sourceCanvas.getContext('2d', { willReadFrequently:true });
+  const outputContext = engravedCover.getContext('2d');
+  if(!sourceContext || !outputContext){
+    throw new Error('Canvas is unavailable');
+  }
+
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  const cropWidth = width / scale;
+  const cropHeight = height / scale;
+  const sourceX = (image.naturalWidth - cropWidth) / 2;
+  const sourceY = (image.naturalHeight - cropHeight) / 2;
+  sourceContext.drawImage(image, sourceX, sourceY, cropWidth, cropHeight, 0, 0, width, height);
+
+  const source = sourceContext.getImageData(0, 0, width, height);
+  const output = outputContext.createImageData(width, height);
+  const luminance = new Float32Array(width * height);
+  const bayer = [
+    0,8,2,10,
+    12,4,14,6,
+    3,11,1,9,
+    15,7,13,5
+  ];
+  const palette = [0,44,86,132];
+
+  for(let pixel = 0; pixel < luminance.length; pixel += 1){
+    const sourceIndex = pixel * 4;
+    luminance[pixel] = source.data[sourceIndex] * .2126
+      + source.data[sourceIndex + 1] * .7152
+      + source.data[sourceIndex + 2] * .0722;
+  }
+
+  for(let y = 0; y < height; y += 1){
+    for(let x = 0; x < width; x += 1){
+      const pixel = y * width + x;
+      const center = luminance[pixel];
+      const left = luminance[y * width + Math.max(0, x - 1)];
+      const right = luminance[y * width + Math.min(width - 1, x + 1)];
+      const up = luminance[Math.max(0, y - 1) * width + x];
+      const down = luminance[Math.min(height - 1, y + 1) * width + x];
+      const edge = Math.min(255, Math.abs(right - left) + Math.abs(down - up));
+      const threshold = (bayer[(y % 4) * 4 + (x % 4)] - 7.5) * 4.5;
+      const etchedTone = Math.max(0, Math.min(255, center * .62 + edge * .95 + threshold));
+      const level = Math.max(0, Math.min(3, Math.round(etchedTone / 255 * 3)));
+      const value = palette[level];
+      const outputIndex = pixel * 4;
+      output.data[outputIndex] = value;
+      output.data[outputIndex + 1] = value;
+      output.data[outputIndex + 2] = value;
+      output.data[outputIndex + 3] = level === 0 ? 150 : 225;
+    }
+  }
+
+  outputContext.putImageData(output, 0, 0);
+}
+
 function renderEngraving(book){
   const requestId = ++coverRequestId;
   const url = coverUrl(book);
   const fallbackLetter = textOr(book.title, '?').charAt(0).toUpperCase();
 
-  heroCover.classList.add('is-hidden');
+  engravedCover.classList.remove('is-ready');
   coverFallback.classList.remove('is-hidden');
   coverFallback.textContent = fallbackLetter;
   heroCover.removeAttribute('src');
@@ -100,16 +166,24 @@ function renderEngraving(book){
     if(requestId !== coverRequestId){
       return;
     }
-    heroCover.classList.remove('is-hidden');
-    coverFallback.classList.add('is-hidden');
+    try{
+      renderDitheredEngraving(heroCover);
+      engravedCover.classList.add('is-ready');
+      coverFallback.classList.add('is-hidden');
+    }catch(error){
+      console.error(error);
+      engravedCover.classList.remove('is-ready');
+      coverFallback.classList.remove('is-hidden');
+    }
   };
   heroCover.onerror = () => {
     if(requestId !== coverRequestId){
       return;
     }
-    heroCover.classList.add('is-hidden');
+    engravedCover.classList.remove('is-ready');
     coverFallback.classList.remove('is-hidden');
   };
+  heroCover.crossOrigin = 'anonymous';
   heroCover.src = url;
 }
 
@@ -119,13 +193,43 @@ function updateUrl(book){
   if(book.slug){
     url.searchParams.set('book', book.slug);
   }
+  url.searchParams.set('view', libraryView);
   window.history.replaceState({}, '', url);
 }
 
+function updateFilterControls(){
+  filterButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === libraryView));
+  });
+}
+
+function setLibraryView(view, shouldUpdateUrl = true){
+  if(view !== 'reading' && view !== 'read'){
+    return;
+  }
+  libraryView = view;
+  updateFilterControls();
+  if(books.length){
+    renderLibrary();
+  }
+  if(shouldUpdateUrl && currentBook){
+    updateUrl(currentBook);
+  }
+}
+
 function renderLibrary(){
-  const otherBooks = books.filter((book) => book !== currentBook);
+  const otherBooks = books.filter((book) => book !== currentBook && book.status === libraryView);
+  const viewLabel = libraryView === 'reading' ? 'currently reading' : 'already read';
   libraryGrid.innerHTML = '';
-  libraryCount.textContent = `${otherBooks.length} other ${otherBooks.length === 1 ? 'book' : 'books'}`;
+  libraryCount.textContent = `${otherBooks.length} ${viewLabel}`;
+
+  if(!otherBooks.length){
+    const emptyLabel = libraryView === 'reading'
+      ? 'No other currently-reading books.'
+      : 'No other already-read books.';
+    libraryGrid.innerHTML = `<p class="library-error">${emptyLabel}</p>`;
+    return;
+  }
 
   const fragment = document.createDocumentFragment();
   otherBooks.forEach((book) => {
@@ -218,11 +322,17 @@ async function loadBooks(){
     }
 
     const requestedSlug = new URLSearchParams(window.location.search).get('book');
+    const requestedView = new URLSearchParams(window.location.search).get('view');
     const requestedBook = requestedSlug
       ? books.find((book) => book.slug === requestedSlug)
       : null;
     const firstReadingBook = books.find((book) => book.status === 'reading');
-    selectBook(requestedBook || firstReadingBook || books[0]);
+    const initialBook = requestedBook || firstReadingBook || books[0];
+    libraryView = requestedView === 'reading' || requestedView === 'read'
+      ? requestedView
+      : initialBook.status === 'reading' ? 'reading' : 'read';
+    updateFilterControls();
+    selectBook(initialBook);
   }catch(error){
     console.error(error);
     showLoadError();
@@ -239,6 +349,10 @@ heroKindle.addEventListener('keydown', (event) => {
   }
   event.preventDefault();
   setFlipped(!heroKindle.classList.contains('is-flipped'));
+});
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', () => setLibraryView(button.dataset.view));
 });
 
 loadBooks();

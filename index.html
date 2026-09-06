@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#c7c5be"/>
   <meta name="description" content="Mimmi’s books displayed as a tactile e-ink reader library."/>
   <title>Mimmi’s Kindle Library</title>
-  <link rel="stylesheet" href="styles.css?v=20260906-kindle-1"/>
-  <script src="script.js?v=20260906-kindle-1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260906-kindle-2"/>
+  <script src="script.js?v=20260906-kindle-2" defer></script>
 </head>
 <body>
   <main>
@@ -62,7 +62,8 @@
           <article class="kindle-face kindle-back" aria-label="Engraved book cover">
             <span class="back-seam" aria-hidden="true"></span>
             <div class="cover-engraving" aria-hidden="true">
-              <img id="heroCover" alt=""/>
+              <canvas id="engravedCover" class="engraved-cover" width="280" height="400"></canvas>
+              <img id="heroCover" class="engraving-source" alt=""/>
               <span id="coverFallback" class="cover-fallback"></span>
             </div>
             <p id="backTitle" class="back-title">Loading…</p>
@@ -80,7 +81,13 @@
       <header class="library-header">
         <p>Your library</p>
         <h2 id="libraryTitle">Choose a Kindle</h2>
-        <span id="libraryCount">— books</span>
+        <div class="library-toolbar">
+          <div class="library-toggle" role="group" aria-label="Choose library status">
+            <button class="filter-button" type="button" data-view="reading" aria-pressed="false">Currently reading</button>
+            <button class="filter-button" type="button" data-view="read" aria-pressed="true">Already read</button>
+          </div>
+          <span id="libraryCount" class="library-count">— books</span>
+        </div>
       </header>
       <div id="libraryGrid" class="library-grid" aria-live="polite"></div>
     </section>
