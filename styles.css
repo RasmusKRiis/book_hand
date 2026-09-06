@@ -389,8 +389,6 @@ button{font:inherit;}
   padding:0;
   border:0;
   background:transparent;
-  contain-intrinsic-size:165px 245px;
-  content-visibility:auto;
   cursor:pointer;
   transition:transform .25s ease;
 }

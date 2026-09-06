@@ -17,7 +17,7 @@
 - The sampled palette derives `--hero-complement-rgb` for a low-opacity, paint-only halo and pixel cluster directly behind the Kindle. Keep the effect subtle and avoid filters so the flip remains responsive.
 - `.kindle-face::before` supplies the hero’s layered edge micro-texture; keep it pointer-transparent and concentrated around the outer border.
 - Shelf wraps and imprint colors are loaded lazily through `IntersectionObserver`; preserve this boundary so offscreen artwork does not compete with the hero animation.
-- Lift the library card itself on hover, not its contained device; `content-visibility:auto` otherwise clips the device when it moves outside the card’s paint boundary.
+- Lift the library card itself on hover, not its contained device. Do not add paint containment or `content-visibility` to the card: either clips the rotated Kindle edges and its outside shadow.
 - The status toggle filters the lower library between `reading` and `read`; its state is preserved in `?view=`.
 - The library excludes the active hero book. Selecting another Kindle makes it active, returns the hero to its screen, updates the URL, and scrolls to the top.
 - All library entries remain readable and keyboard accessible.
