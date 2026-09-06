@@ -13,6 +13,7 @@ A single-page reading library designed around an e-ink reader.
 - The library toggle switches those devices between **Currently reading** and **Already read**.
 - Selecting a library device moves that book into the hero reader and updates the `?book=` and `?view=` URL state.
 - The custom artwork stays text-free. Shelf titles switch between black and warm-white ink from the wrap’s sampled luminance, without a label box; author and details remain on the hero screen.
+- Shelf artwork is decoded and sampled only as it approaches the viewport, keeping the hero flip responsive even with the full 57-book collection.
 
 ## Data
 

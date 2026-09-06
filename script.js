@@ -22,7 +22,9 @@ let currentBook = null;
 let wrapRequestId = 0;
 let libraryView = 'read';
 let isFlipping = false;
+let libraryWrapObserver = null;
 const wrapPaletteCache = new Map();
+const libraryWrapData = new WeakMap();
 
 function textOr(value, fallback = '—'){
   const text = String(value ?? '').trim();
@@ -147,6 +149,7 @@ function requestWrapPalette(book, imageUrl, callback){
     return;
   }
   const image = new Image();
+  image.decoding = 'async';
   image.onload = () => {
     try{
       const palette = sampleWrapPalette(image);
@@ -159,6 +162,48 @@ function requestWrapPalette(book, imageUrl, callback){
     }
   };
   image.src = imageUrl;
+}
+
+function loadLibraryWrap(device){
+  const data = libraryWrapData.get(device);
+  if(!data || data.loaded){
+    return;
+  }
+  data.loaded = true;
+  device.style.setProperty('--wrap-image', `url("${data.imageUrl}")`);
+  requestWrapPalette(data.book, data.imageUrl, (palette) => {
+    data.title.style.setProperty('--imprint-color', palette.ink);
+  });
+  libraryWrapObserver?.unobserve(device);
+}
+
+function resetLibraryWrapObserver(){
+  libraryWrapObserver?.disconnect();
+  libraryWrapObserver = null;
+  if(!('IntersectionObserver' in window)){
+    return;
+  }
+  libraryWrapObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if(entry.isIntersecting){
+        loadLibraryWrap(entry.target);
+      }
+    });
+  }, { rootMargin:'520px 0px', threshold:.01 });
+}
+
+function queueLibraryWrap(device, book, title){
+  libraryWrapData.set(device, {
+    book,
+    title,
+    imageUrl:wrapUrl(book),
+    loaded:false
+  });
+  if(libraryWrapObserver){
+    libraryWrapObserver.observe(device);
+  }else{
+    loadLibraryWrap(device);
+  }
 }
 
 function applyWrapPalette(book, imageUrl, requestId){
@@ -217,6 +262,7 @@ function renderLibrary(){
   const viewLabel = libraryView === 'reading' ? 'currently reading' : 'already read';
   libraryGrid.innerHTML = '';
   libraryCount.textContent = `${otherBooks.length} ${viewLabel}`;
+  resetLibraryWrapObserver();
 
   if(!otherBooks.length){
     const emptyLabel = libraryView === 'reading'
@@ -240,15 +286,12 @@ function renderLibrary(){
     device.className = 'library-device';
 
     device.classList.add('has-custom-wrap');
-    device.style.setProperty('--wrap-image', `url("${wrapUrl(book)}")`);
 
     const title = document.createElement('span');
     title.className = 'library-device-title';
     title.setAttribute('aria-hidden', 'true');
     title.textContent = textOr(book.title);
-    requestWrapPalette(book, wrapUrl(book), (palette) => {
-      title.style.setProperty('--imprint-color', palette.ink);
-    });
+    queueLibraryWrap(device, book, title);
 
     device.appendChild(title);
     card.appendChild(device);

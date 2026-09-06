@@ -13,6 +13,7 @@
 - The hero backside never adds title, author, or brand text over the artwork.
 - Every database book has a matching text-free wrap at `assets/kindle-wraps/<slug>.jpg`.
 - Each wrap fills the hero back and its library device. The hero front shell color is sampled from the wrap’s outer edge.
+- Shelf wraps and imprint colors are loaded lazily through `IntersectionObserver`; preserve this boundary so offscreen artwork does not compete with the hero animation.
 - The status toggle filters the lower library between `reading` and `read`; its state is preserved in `?view=`.
 - The library excludes the active hero book. Selecting another Kindle makes it active, returns the hero to its screen, updates the URL, and scrolls to the top.
 - All library entries remain readable and keyboard accessible.
