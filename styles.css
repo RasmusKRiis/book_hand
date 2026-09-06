@@ -387,7 +387,7 @@ button{font:inherit;}
   touch-action:manipulation;
   transition:transform .25s ease;
 }
-.library-card:focus-visible{outline:3px solid #e8dfcf;outline-offset:7px;border-radius:16px;}
+.library-card:focus-visible{outline:0;}
 .library-device{
   position:relative;
   display:flex;
@@ -450,11 +450,13 @@ button{font:inherit;}
   -webkit-box-orient:vertical;
   -webkit-line-clamp:2;
 }
-.library-card:hover{
+.library-card:hover,
+.library-card:focus-visible{
   z-index:2;
   transform:translateY(-7px);
 }
-.library-card:hover .library-device{
+.library-card:hover .library-device,
+.library-card:focus-visible .library-device{
   box-shadow:0 27px 32px rgba(0,0,0,.54),0 7px 9px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.09),inset 0 -2px 2px rgba(0,0,0,.4);
   transform:rotate(0deg);
 }
