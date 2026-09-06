@@ -376,8 +376,15 @@ button{font:inherit;}
   aspect-ratio:.675;
   padding:0;
   border:0;
+  outline:0;
   background:transparent;
+  color:inherit;
   cursor:pointer;
+  font:inherit;
+  -webkit-appearance:none;
+  appearance:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
   transition:transform .25s ease;
 }
 .library-card:focus-visible{outline:3px solid #e8dfcf;outline-offset:7px;border-radius:16px;}
