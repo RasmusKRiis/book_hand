@@ -3,59 +3,79 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Pixel Reading Shelf</title>
-  <link rel="stylesheet" href="styles.css?v=20260402g"/>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js" defer></script>
-  <script src="script.js?v=20260529b" defer></script>
+  <meta name="theme-color" content="#d7d1f0"/>
+  <meta name="description" content="Mimmi's color-shifting pixel reading shelf."/>
+  <title>Mimmi’s Shelf</title>
+  <link rel="stylesheet" href="styles.css?v=20260906a"/>
+  <script src="script.js?v=20260906b" defer></script>
 </head>
 <body>
   <div class="wrapper">
-    <div class="top-bar">
-      <a href="stats.html" class="site-title" aria-label="Open shelf statistics">mimmi’s shelf</a>
+    <header class="top-bar">
+      <a href="index.html" class="site-title" aria-label="Mimmi's Shelf home">mimmi’s shelf</a>
 
-      <div class="control-panel">
+      <div class="control-panel" aria-label="Shelf controls">
         <label class="search-field" for="searchInput">
           <span class="search-label">Find a book</span>
           <input id="searchInput" class="search-input" type="search" placeholder="Title or author" autocomplete="off"/>
         </label>
 
         <div class="filter-box">
-          <label class="toggle" title="切換 cat3‑waan6 (toggle)">
+          <label class="toggle" title="Switch between current books and the full shelf">
             <input type="checkbox" id="filterToggle"/>
-            <span class="slider"></span>
+            <span class="slider" aria-hidden="true"></span>
+            <span class="sr-only">Show all books</span>
           </label>
           <span id="filterLabel" class="filter-label">Currently Reading</span>
         </div>
       </div>
-    </div>
+    </header>
 
-    <section id="showcase">
-      <button id="bookLink" class="book-display" type="button" aria-label="Open current book page">
-        <img id="cover" class="cover" src="book.png" alt="Book cover" loading="eager" decoding="async" fetchpriority="high"/>
-        <img class="hand" src="assets/hand.png" alt="Pixel hand"/>
-      </button>
-
-      <div id="back" class="book-back">
-        <h2 id="title"></h2>
-        <h3 id="author"></h3>
-        <ul>
-          <li><strong>Released:</strong> <span id="released"></span></li>
-          <li><strong>Read:</strong> <span id="read"></span></li>
-          <li class="rating-line">
-            <span id="stars" class="stars" aria-label="Star rating"></span>
-          </li>
-        </ul>
-
-        <div class="comment-block">
-          <p class="label">Notes</p>
-          <p id="aiComment" class="note-text"></p>
+    <main>
+      <section id="showcase" class="showcase" aria-labelledby="title">
+        <div class="book-zone">
+          <p class="pixel-label">On the desk</p>
+          <button id="bookLink" class="book-display" type="button" aria-label="Open current book page">
+            <span id="bookObject" class="book-object" aria-hidden="true">
+              <canvas id="pixelCover" class="pixel-cover" width="12" height="18"></canvas>
+            </span>
+            <img id="cover" class="cover-source" alt=""/>
+          </button>
         </div>
-      </div>
-    </section>
 
-    <div class="divider"></div>
+        <article id="back" class="book-back">
+          <p class="pixel-label">Selected book</p>
+          <h1 id="title"></h1>
+          <p class="byline">by <span id="author"></span></p>
 
-    <section id="grid" class="grid" aria-live="polite"></section>
+          <ul class="book-facts">
+            <li><strong>Released</strong><span id="released"></span></li>
+            <li><strong>Read</strong><span id="read"></span></li>
+            <li class="rating-line">
+              <strong>Rating</strong>
+              <span id="stars" class="stars" aria-label="Star rating"></span>
+            </li>
+          </ul>
+
+          <div class="comment-block">
+            <p class="label">Notes</p>
+            <p id="aiComment" class="note-text"></p>
+          </div>
+
+          <p class="open-hint">Click the cover to open the book page ↗</p>
+        </article>
+      </section>
+
+      <div class="pixel-divider" aria-hidden="true"></div>
+
+      <section class="shelf-section" aria-labelledby="shelfTitle">
+        <div class="shelf-heading">
+          <h2 id="shelfTitle">The shelf</h2>
+          <p><span id="shelfCount">—</span> books</p>
+        </div>
+        <section id="grid" class="grid" aria-live="polite"></section>
+      </section>
+    </main>
   </div>
 </body>
 </html>

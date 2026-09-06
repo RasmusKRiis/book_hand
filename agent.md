@@ -1,11 +1,11 @@
-- Project: static “Pixel Reading Shelf” that shows Mimi’s reading list with a hero book display and a grid of covers.
-- Stack: vanilla HTML/CSS/JS only. External CDN: GSAP (animations). Local font `assets/fonts/Jersey-15.*`.
+- Project: static color-shifting “Pixel Reading Shelf” that shows Mimi’s reading list with a hero book display and a grid of covers.
+- Stack: vanilla HTML/CSS/JS only. Local font `assets/fonts/Jersey-15.*`; no client library dependencies.
 - Entry points
-  - `index.html`: lays out the wrapper, hero book section, search/filter controls, and book grid container. Loads CSS, GSAP, and `script.js`.
-  - `styles.css`: Wes‑Anderson–inspired palette, grid layout (5 columns desktop, 2 mobile), hero layout, toggle styling, and overall typography.
-  - `script.js`: fetches `data/books.json`, preserves UI state in the URL, renders the hero + progressive grid, supports keyboard navigation, and opens `book_url` in a new tab.
-  - Data source: `data/books.csv` (edited by hand) plus generated `data/books.json` for the frontend. Schema: `title,author,slug,cover_image,release_date,date_read,status,comment,ai_comment,rating,country,book_url,isbn,language,translated_from,genre`. Covers live in `assets/`; hand sprite in `assets/hand.png`; `book.png` is the fallback cover.
-  - Tooling: `tools/sync-books-data.mjs` normalizes the CSV schema, optionally enriches missing Open Library metadata, and writes `data/books.json`.
+  - `index.html`: lays out the wrapper, reusable block-mosaic cover hero, search/filter controls, and book grid container. Loads CSS and `script.js`.
+  - `styles.css`: dynamic theme tokens, page-wide grey pixel-grain, borderless block-cover presentation for the hero and shelf, pixel materialization states, and a 5-column desktop/2-column mobile cover grid.
+  - `script.js`: fetches `data/books.json`, loads only strictly verified Open Library cover images, progressively redraws the selected image from 10 to 240 pixels wide as mixed-size raised image blocks, uses a coarser block grid for shelf thumbnails, extracts a dominant hue locally, preserves URL state, renders the progressive grid, supports keyboard navigation, and opens `book_url` in a new tab.
+  - Data source: `data/books.csv` plus generated `data/books.json`. `cover_id` supplies the displayed Open Library image; `cover_image` is retained as legacy metadata but is not used by the frontend.
+  - Tooling: `tools/sync-books-data.mjs` normalizes the CSV schema, can cache missing cover IDs with `--enrich-covers`, strictly re-check every cover with `--refresh-covers`, optionally enrich other Open Library metadata, and writes `data/books.json`.
   - Serverless: `netlify/functions/update-comment.js` updates `data/books.csv` in GitHub via the GitHub Contents API.
 
 Runtime behavior (script.js)
@@ -15,7 +15,7 @@ Runtime behavior (script.js)
 - Filter toggle: `filter` defaults to `'reading'`. When checked, `filter = 'all'` and the grid shows every book; when unchecked, only `status === 'reading'` appear. `updateLabel()` swaps the label text (`Currently Reading` vs `Read`).
 - Search matches normalized title/author/metadata through `search_index`.
 - `resetGrid()` renders the first thumbnail chunk immediately, then appends more items via `IntersectionObserver`.
-- `showBook()` swaps hero content; when animated, a GSAP timeline fades/flies cover + hand out/in, then updates text (`title/author/released/read/ai_comment`) and persists the selected slug in the URL.
+- `showBook()` swaps hero content through a stepped exit followed by a canvas-based pixel materialization, then persists the selected slug in the URL.
 - Keyboard: `Esc` clears search, `Enter` opens the selected `book_url`, and arrow keys move between visible books.
 
 How to work on this codebase
@@ -23,16 +23,16 @@ How to work on this codebase
 - Keep data tidy:
   - `status` should be `reading` or `read`. An empty `date_read` means “currently reading” and will be sorted to the top; use ISO `YYYY-MM-DD` for `date_read` when known.
   - `slug` should stay stable once shared, because it is used in the URL.
-  - `cover_image` must match a file in `assets/`; prefer consistent 3:4 aspect PNGs to avoid layout jumps.
+  - `cover_id` must come from a title-and-author match. The frontend intentionally does not load `cover_image` or guess by ISBN/edition ID; a missing API match becomes a generated placeholder texture.
   - `book_url` should point directly to a book database page when possible; the sync script falls back to an Open Library search URL if needed.
   - Avoid commas inside CSV fields unless quoted.
 - UI/logic expectations to preserve:
   - Default view shows only `reading` items and labels “Currently Reading”; toggling shows all and labels “Read”.
   - Search/filter/current book should round-trip through the URL.
-  - Hero swap should remain animated when triggered by a grid click; keep GSAP timeline semantics if refactoring.
+  - Hero swap should retain the progressive low-resolution canvas animation when triggered by a grid click.
   - Grid rendering should stay incremental (initial chunk plus observer-driven append) so large shelves do not block first paint.
-- Styling tone: maintain the set palette and Jersey 15 font; keep hand/cover dimensions aligned with `.book-display`.
-- Adding dependencies: prefer CDN for small client-only libs; document any new imports in `index.html` and note why they’re needed.
+- Styling tone: preserve the complementary page color with a weak, blocky grey pixel-grain overlay, free-floating covers, pixel direction, Jersey 15 font, squared controls, and cover art rebuilt from raised, rounded image tiles rather than a simulated 3D book.
+- Adding dependencies: prefer dependency-free browser APIs; document any new imports in `index.html` and note why they’re needed.
 - Robustness tips:
   - Validate new CSV rows before commit; ensure fields exist so DOM textContent calls do not end up `undefined`.
   - When adding features, guard against missing assets or malformed dates (fallback strings) rather than crashing animations.

@@ -12,6 +12,7 @@ const SCHEMA_HEADERS = [
   'author',
   'slug',
   'cover_image',
+  'cover_id',
   'release_date',
   'date_read',
   'status',
@@ -180,6 +181,62 @@ function normalizeText(value = '') {
     .trim();
 }
 
+function getTitleVariants(value = '') {
+  const raw = cleanField(value);
+  const variants = new Set([normalizeText(raw)]);
+  const baseTitle = raw.split(/\s*[:–—]\s*|\s+\([^)]*\)\s*$/)[0];
+  variants.add(normalizeText(baseTitle));
+  return [...variants].filter(Boolean);
+}
+
+function titlesMatch(wantedTitle, candidateTitle) {
+  const wantedVariants = getTitleVariants(wantedTitle);
+  const candidateVariants = getTitleVariants(candidateTitle);
+  return wantedVariants.some((wanted) => candidateVariants.includes(wanted));
+}
+
+function getAuthorParts(value = '') {
+  return cleanField(value)
+    .replace(/\bet\s+al\.?\b/gi, '')
+    .split(/\s+(?:and|&)\s+|\s*[,;/]\s*/i)
+    .map((part) => normalizeText(part))
+    .filter(Boolean);
+}
+
+function authorPartMatches(wantedAuthor, candidateAuthor) {
+  if (wantedAuthor === candidateAuthor) {
+    return true;
+  }
+
+  const wantedTokens = wantedAuthor.split(' ').filter(Boolean);
+  const candidateTokens = candidateAuthor.split(' ').filter(Boolean);
+  if (wantedTokens.length === 1 || candidateTokens.length === 1) {
+    return false;
+  }
+
+  const candidateSet = new Set(candidateTokens);
+  const sharedTokens = wantedTokens.filter((token) => candidateSet.has(token));
+  const requiredMatches = Math.max(2, Math.ceil(wantedTokens.length * 0.75));
+  return sharedTokens.length >= requiredMatches;
+}
+
+function authorsMatch(wantedAuthor, candidateAuthors = []) {
+  const wantedParts = getAuthorParts(wantedAuthor);
+  const normalizedCandidates = candidateAuthors.map((author) => normalizeText(author)).filter(Boolean);
+  if (!wantedParts.length || !normalizedCandidates.length) {
+    return false;
+  }
+
+  return wantedParts.some((wantedPart) => (
+    normalizedCandidates.some((candidateAuthor) => authorPartMatches(wantedPart, candidateAuthor))
+  ));
+}
+
+function matchesBookIdentity(record, candidate) {
+  return titlesMatch(record.title, candidate.title)
+    && authorsMatch(record.author, candidate.author_name || []);
+}
+
 function slugifyTitle(value = '') {
   return normalizeText(value).replace(/\s+/g, '-') || 'untitled-book';
 }
@@ -226,20 +283,24 @@ function scoreBookMatch(record, candidate) {
 
   if (candidateTitle === wantedTitle) {
     score += 120;
-  } else if (candidateTitle.includes(wantedTitle) || wantedTitle.includes(candidateTitle)) {
-    score += 80;
+  } else if (titlesMatch(record.title, candidate.title)) {
+    score += 90;
   }
 
   if (wantedAuthor) {
     if (candidateAuthors.includes(wantedAuthor)) {
       score += 60;
-    } else if (candidateAuthors.some((name) => name.includes(wantedAuthor) || wantedAuthor.includes(name))) {
-      score += 35;
+    } else if (authorsMatch(record.author, candidate.author_name || [])) {
+      score += 45;
     }
   }
 
   if (Number.isFinite(wantedYear) && candidate.first_publish_year === wantedYear) {
     score += 20;
+  }
+
+  if (candidate.cover_i) {
+    score += 30;
   }
 
   return score;
@@ -279,29 +340,48 @@ function pickGenre(subjects) {
   return '';
 }
 
-async function lookupOpenLibrary(record) {
+async function lookupOpenLibrary(record, { requireCover = false } = {}) {
   const params = new URLSearchParams({
     title: record.title || '',
-    limit: '5',
-    fields: 'key,title,author_name,first_publish_year,isbn,language,subject'
+    limit: '10',
+    fields: 'key,title,author_name,first_publish_year,isbn,language,subject,cover_i'
   });
 
   if (record.author) {
     params.set('author', record.author);
   }
 
-  const response = await fetch(`${OPEN_LIBRARY_SEARCH_URL}?${params.toString()}`);
-  if (!response.ok) {
-    throw new Error(`Open Library lookup failed with status ${response.status}`);
+  async function fetchCandidates(searchParams) {
+    const response = await fetch(`${OPEN_LIBRARY_SEARCH_URL}?${searchParams.toString()}`);
+    if (!response.ok) {
+      throw new Error(`Open Library lookup failed with status ${response.status}`);
+    }
+    const payload = await response.json();
+    return Array.isArray(payload.docs) ? payload.docs : [];
   }
 
-  const payload = await response.json();
-  const candidates = Array.isArray(payload.docs) ? payload.docs : [];
+  let candidates = await fetchCandidates(params);
+  const isUsableCandidate = (candidate) => (
+    matchesBookIdentity(record, candidate) && (!requireCover || candidate.cover_i)
+  );
+
+  if (!candidates.some(isUsableCandidate) && params.has('author')) {
+    const queryParams = new URLSearchParams({
+      q: `${record.title || ''} ${record.author || ''}`.trim(),
+      limit: '10',
+      fields: 'key,title,author_name,first_publish_year,isbn,language,subject,cover_i'
+    });
+    const queryCandidates = await fetchCandidates(queryParams);
+    params.delete('author');
+    candidates = [...queryCandidates, ...await fetchCandidates(params)];
+  }
+
   const bestMatch = candidates
+    .filter(isUsableCandidate)
     .map((candidate) => ({ candidate, score: scoreBookMatch(record, candidate) }))
     .sort((a, b) => b.score - a.score)[0];
 
-  if (!bestMatch || bestMatch.score < 80) {
+  if (!bestMatch) {
     return null;
   }
 
@@ -315,6 +395,7 @@ async function enrichRecord(record) {
   }
 
   record.book_url = candidate.key ? `https://openlibrary.org${candidate.key}` : record.book_url;
+  record.cover_id = candidate.cover_i ? String(candidate.cover_i) : record.cover_id;
 
   if (!record.isbn && Array.isArray(candidate.isbn) && candidate.isbn.length) {
     [record.isbn] = candidate.isbn;
@@ -329,6 +410,48 @@ async function enrichRecord(record) {
   }
 
   return record;
+}
+
+async function enrichCoverRecord(record, { refresh = false } = {}) {
+  if (record.cover_id && !refresh) {
+    return record;
+  }
+
+  if (refresh) {
+    record.cover_id = '';
+  }
+
+  const candidate = await lookupOpenLibrary(record, { requireCover: true });
+  if (!candidate) {
+    return record;
+  }
+
+  record.cover_id = candidate.cover_i ? String(candidate.cover_i) : '';
+  if (candidate.key && /openlibrary\.org\/search\?/.test(record.book_url)) {
+    record.book_url = `https://openlibrary.org${candidate.key}`;
+  }
+  return record;
+}
+
+async function enrichRecords(records, enricher, label) {
+  let nextIndex = 0;
+  const workerCount = Math.min(4, records.length);
+
+  async function worker() {
+    while (nextIndex < records.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      const record = records[index];
+      try {
+        console.log(`[${label}] ${index + 1}/${records.length}: ${record.title}`);
+        await enricher(record);
+      } catch (error) {
+        console.warn(`[warn] ${record.title}: ${error.message}`);
+      }
+    }
+  }
+
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
 }
 
 function buildSearchIndex(record) {
@@ -347,6 +470,7 @@ function toJsonRecord(record) {
     author: record.author,
     slug: record.slug,
     cover_image: record.cover_image,
+    cover_id: record.cover_id,
     release_date: record.release_date,
     date_read: record.date_read,
     status: record.status,
@@ -368,21 +492,23 @@ async function run() {
   const csvPath = path.resolve(String(args.csv || DEFAULT_CSV_PATH));
   const jsonPath = path.resolve(String(args.json || DEFAULT_JSON_PATH));
   const shouldEnrich = Boolean(args['enrich-open-library']);
+  const shouldEnrichCovers = Boolean(args['enrich-covers']);
+  const shouldRefreshCovers = Boolean(args['refresh-covers']);
 
   const { headers, records } = await readBooks(csvPath);
   const orderedHeaders = getOrderedHeaders(headers);
   const normalizedRecords = records.map((record) => normalizeRecord(record, orderedHeaders));
 
   if (shouldEnrich) {
-    for (let i = 0; i < normalizedRecords.length; i += 1) {
-      const record = normalizedRecords[i];
-      try {
-        console.log(`[enrich] ${i + 1}/${normalizedRecords.length}: ${record.title}`);
-        await enrichRecord(record);
-      } catch (error) {
-        console.warn(`[warn] ${record.title}: ${error.message}`);
-      }
-    }
+    await enrichRecords(normalizedRecords, enrichRecord, 'enrich');
+  } else if (shouldRefreshCovers) {
+    await enrichRecords(
+      normalizedRecords,
+      (record) => enrichCoverRecord(record, { refresh: true }),
+      'refresh-covers'
+    );
+  } else if (shouldEnrichCovers) {
+    await enrichRecords(normalizedRecords, enrichCoverRecord, 'covers');
   }
 
   const csvOutput = serializeCsv(orderedHeaders, normalizedRecords);
