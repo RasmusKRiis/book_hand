@@ -230,6 +230,7 @@ function renderWrap(book){
   heroKindle.classList.add('has-custom-wrap');
   kindleBack.classList.add('has-custom-wrap');
   kindleBack.style.setProperty('--wrap-image', `url("${imageUrl}")`);
+  hero.style.setProperty('--hero-wrap-image', `url("${imageUrl}")`);
   heroKindle.style.setProperty('--wrap-color', '#9a927d');
   heroKindle.style.setProperty('--wrap-edge', '#49453b');
   hero.style.setProperty('--hero-rgb', '154,146,125');
