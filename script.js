@@ -2,6 +2,7 @@ const BOOKS_URL = 'data/books.json';
 
 const hero = document.querySelector('.hero');
 const heroKindle = document.getElementById('heroKindle');
+const kindleInner = heroKindle.querySelector('.kindle-inner');
 const flipHint = document.getElementById('flipHint');
 const bookTitle = document.getElementById('bookTitle');
 const bookAuthor = document.getElementById('bookAuthor');
@@ -20,6 +21,7 @@ let books = [];
 let currentBook = null;
 let wrapRequestId = 0;
 let libraryView = 'read';
+let isFlipping = false;
 const wrapPaletteCache = new Map();
 
 function textOr(value, fallback = '—'){
@@ -68,7 +70,27 @@ function wrapUrl(book){
 }
 
 function setFlipped(flipped){
+  isFlipping = false;
+  heroKindle.classList.remove('is-turning-to-back', 'is-turning-to-front');
   heroKindle.classList.toggle('is-flipped', flipped);
+  heroKindle.setAttribute('aria-pressed', String(flipped));
+  heroKindle.setAttribute(
+    'aria-label',
+    flipped ? 'Flip the reader back to the book details' : 'Flip the reader to reveal the artwork back'
+  );
+  flipHint.textContent = flipped
+    ? 'Press the reader to return to the details'
+    : 'Press the reader to see the artwork back';
+}
+
+function flipReader(){
+  if(isFlipping){
+    return;
+  }
+  const flipped = !heroKindle.classList.contains('is-flipped');
+  isFlipping = true;
+  heroKindle.classList.toggle('is-flipped', flipped);
+  heroKindle.classList.add(flipped ? 'is-turning-to-back' : 'is-turning-to-front');
   heroKindle.setAttribute('aria-pressed', String(flipped));
   heroKindle.setAttribute(
     'aria-label',
@@ -110,36 +132,43 @@ function sampleWrapPalette(image){
   }
   const color = channels.map(median);
   const edge = color.map((channel) => Math.round(channel * .48));
+  const luminance = color[0] * .2126 + color[1] * .7152 + color[2] * .0722;
   return {
     color:`rgb(${color.join(',')})`,
-    edge:`rgb(${edge.join(',')})`
+    edge:`rgb(${edge.join(',')})`,
+    ink:luminance > 146 ? '#11110f' : '#f4f1e7'
   };
 }
 
-function applyWrapPalette(book, imageUrl, requestId){
+function requestWrapPalette(book, imageUrl, callback){
   const cached = wrapPaletteCache.get(book.slug);
   if(cached){
-    heroKindle.style.setProperty('--wrap-color', cached.color);
-    heroKindle.style.setProperty('--wrap-edge', cached.edge);
+    callback(cached);
     return;
   }
   const image = new Image();
   image.onload = () => {
-    if(requestId !== wrapRequestId){
-      return;
-    }
     try{
       const palette = sampleWrapPalette(image);
       if(palette){
         wrapPaletteCache.set(book.slug, palette);
-        heroKindle.style.setProperty('--wrap-color', palette.color);
-        heroKindle.style.setProperty('--wrap-edge', palette.edge);
+        callback(palette);
       }
     }catch(error){
       console.error(error);
     }
   };
   image.src = imageUrl;
+}
+
+function applyWrapPalette(book, imageUrl, requestId){
+  requestWrapPalette(book, imageUrl, (palette) => {
+    if(requestId !== wrapRequestId){
+      return;
+    }
+    heroKindle.style.setProperty('--wrap-color', palette.color);
+    heroKindle.style.setProperty('--wrap-edge', palette.edge);
+  });
 }
 
 function renderWrap(book){
@@ -213,6 +242,15 @@ function renderLibrary(){
     device.classList.add('has-custom-wrap');
     device.style.setProperty('--wrap-image', `url("${wrapUrl(book)}")`);
 
+    const title = document.createElement('span');
+    title.className = 'library-device-title';
+    title.setAttribute('aria-hidden', 'true');
+    title.textContent = textOr(book.title);
+    requestWrapPalette(book, wrapUrl(book), (palette) => {
+      title.style.setProperty('--imprint-color', palette.ink);
+    });
+
+    device.appendChild(title);
     card.appendChild(device);
     card.addEventListener('click', () => {
       selectBook(book, true);
@@ -292,16 +330,22 @@ async function loadBooks(){
   }
 }
 
-heroKindle.addEventListener('click', () => {
-  setFlipped(!heroKindle.classList.contains('is-flipped'));
-});
+heroKindle.addEventListener('click', flipReader);
 
 heroKindle.addEventListener('keydown', (event) => {
   if(event.key !== 'Enter' && event.key !== ' '){
     return;
   }
   event.preventDefault();
-  setFlipped(!heroKindle.classList.contains('is-flipped'));
+  flipReader();
+});
+
+kindleInner.addEventListener('animationend', (event) => {
+  if(event.target !== kindleInner || !event.animationName.startsWith('kindle-turn-')){
+    return;
+  }
+  isFlipping = false;
+  heroKindle.classList.remove('is-turning-to-back', 'is-turning-to-front');
 });
 
 filterButtons.forEach((button) => {
