@@ -23,6 +23,7 @@ button{font:inherit;}
 .hero{
   --hero-rgb:154,146,125;
   --hero-edge-rgb:73,69,59;
+  --hero-complement-rgb:138,142,153;
   position:relative;
   isolation:isolate;
   display:grid;
@@ -33,24 +34,36 @@ button{font:inherit;}
   padding:clamp(2rem,5vw,4.5rem) 1.25rem 5.5rem;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 42% 48% at 50% 43%,rgba(var(--hero-rgb),.18),transparent 72%),
+    radial-gradient(ellipse 43% 49% at 50% 43%,rgba(var(--hero-complement-rgb),.21),transparent 72%),
+    radial-gradient(ellipse 30% 38% at 50% 43%,rgba(var(--hero-rgb),.055),transparent 74%),
     radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),transparent 42%),
     var(--desk);
 }
 .hero::before{
   content:"";
   position:absolute;
-  inset:0;
+  top:43%;
+  left:50%;
   z-index:0;
+  width:min(122vw,760px);
+  height:min(90svh,760px);
   pointer-events:none;
   background:
-    linear-gradient(90deg,rgba(var(--hero-rgb),.045) 1px,transparent 1px) 0 0/11px 11px,
-    linear-gradient(rgba(var(--hero-edge-rgb),.03) 1px,transparent 1px) 0 0/11px 11px,
-    radial-gradient(circle at 32% 35%,rgba(var(--hero-rgb),.08),transparent 28%),
-    radial-gradient(circle at 68% 54%,rgba(var(--hero-edge-rgb),.055),transparent 30%);
-  -webkit-mask-image:radial-gradient(ellipse 48% 56% at 50% 43%,#000 0 38%,rgba(0,0,0,.55) 58%,transparent 82%);
-  mask-image:radial-gradient(ellipse 48% 56% at 50% 43%,#000 0 38%,rgba(0,0,0,.55) 58%,transparent 82%);
-  opacity:.72;
+    linear-gradient(rgba(var(--hero-complement-rgb),.3) 0 0) 7% 23%/5% 3% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.22) 0 0) 17% 13%/8% 4% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.18) 0 0) 11% 67%/10% 5% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.25) 0 0) 21% 80%/5% 3% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.28) 0 0) 93% 29%/6% 4% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.2) 0 0) 82% 16%/9% 5% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.18) 0 0) 89% 69%/8% 4% no-repeat,
+    linear-gradient(rgba(var(--hero-complement-rgb),.26) 0 0) 78% 83%/5% 3% no-repeat,
+    linear-gradient(90deg,rgba(var(--hero-complement-rgb),.05) 1px,transparent 1px) center/12px 12px,
+    linear-gradient(rgba(var(--hero-edge-rgb),.025) 1px,transparent 1px) center/12px 12px,
+    radial-gradient(ellipse at center,rgba(var(--hero-complement-rgb),.11),transparent 68%);
+  -webkit-mask-image:radial-gradient(ellipse 50% 55% at center,#000 0 42%,rgba(0,0,0,.58) 64%,transparent 88%);
+  mask-image:radial-gradient(ellipse 50% 55% at center,#000 0 42%,rgba(0,0,0,.58) 64%,transparent 88%);
+  opacity:.76;
+  transform:translate(-50%,-50%);
 }
 .hero>*{z-index:1;}
 
