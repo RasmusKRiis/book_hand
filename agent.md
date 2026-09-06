@@ -16,6 +16,7 @@
 - Each wrap fills the hero back and its library device. The hero front shell color is sampled from the wrap’s outer edge.
 - The sampled palette derives `--hero-complement-rgb` for a low-opacity, paint-only halo and pixel cluster directly behind the Kindle. Keep the effect subtle and avoid filters so the flip remains responsive.
 - `.kindle-face::before` supplies the hero’s layered edge micro-texture; keep it pointer-transparent and concentrated around the outer border.
+- `.kindle::before` is the artwork-side casing depth. It fades in after the turn midpoint and remains visible only while the hero is flipped.
 - Shelf wraps and imprint colors are loaded lazily through `IntersectionObserver`; preserve this boundary so offscreen artwork does not compete with the hero animation.
 - Lift the library card itself on hover, not its contained device. Do not add paint containment or `content-visibility` to the card: either clips the rotated Kindle edges and its outside shadow.
 - The status toggle filters the lower library between `reading` and `read`; its state is preserved in `?view=`.

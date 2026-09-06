@@ -11,6 +11,7 @@ A single-page reading library designed around an e-ink reader.
 - The sampled artwork tones generate a softened complementary color for a visible but restrained checker-pixel halo directly behind the hero, connecting the device to the page without turning the background into artwork.
 - Layered highlights, shadows, and irregular micro-lines give the hero Kindle’s edge a more tactile, lightly worn structure.
 - The hero uses a short lift–edge–settle turn with a responsive floor shadow and a restrained highlight sweep across the returning artwork.
+- Once flipped, a palette-aware rear casing forms a narrow right-and-bottom lip so the artwork side reads as a thicker physical device.
 - The reader keeps its normal pointer throughout the flip; the animation never presents itself as a loading state.
 - Scrolling reveals the other books as artwork-wrapped Kindle backs with their title imprinted directly into the shell.
 - The library toggle switches those devices between **Currently reading** and **Already read**.
