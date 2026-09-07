@@ -175,7 +175,6 @@ function loadLibraryWrap(device){
   device.style.setProperty('--wrap-image', `url("${data.imageUrl}")`);
   requestWrapPalette(data.book, data.imageUrl, (palette) => {
     data.title.style.setProperty('--imprint-color', palette.ink);
-    device.parentElement?.style.setProperty('--device-edge', palette.edge);
   });
   libraryWrapObserver?.unobserve(device);
 }
