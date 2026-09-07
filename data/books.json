@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-06T20:09:38Z",
-  "count": 59,
+  "generated_at": "2026-09-07T19:57:00Z",
+  "count": 60,
   "books": [
     {
       "title": "Hooked",
@@ -1181,6 +1181,26 @@
       "translated_from": "",
       "genre": "Literary fiction",
       "search_index": "taipei story r f kuang literary fiction english taiwan grief language family diaspora"
+    },
+    {
+      "title": "Journey Across Japan",
+      "author": "Chris Broad",
+      "slug": "journey-across-japan",
+      "cover_image": "",
+      "cover_id": "",
+      "release_date": "2026",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "A lively guide beyond Japan's familiar stops, tracing culture, food, landscapes, and oddities across all 47 prefectures.",
+      "rating": "",
+      "country": "United Kingdom",
+      "book_url": "https://www.penguin.co.uk/books/473946/journey-across-japan-by-broad-chris/9780857508294",
+      "isbn": "9780857508294",
+      "language": "English",
+      "translated_from": "",
+      "genre": "Travel",
+      "search_index": "journey across japan chris broad travel guide 47 prefectures english"
     }
   ]
 }
