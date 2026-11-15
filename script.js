@@ -1,4 +1,5 @@
 const BOOKS_URL = 'data/books.json';
+const WRAP_VERSION = '20261115-print-refresh';
 
 const hero = document.querySelector('.hero');
 const heroKindle = document.getElementById('heroKindle');
@@ -68,7 +69,7 @@ function formatRating(value){
 }
 
 function wrapUrl(book){
-  return `assets/kindle-wraps/${book.slug}.jpg`;
+  return `assets/kindle-wraps/${book.slug}.jpg?v=${WRAP_VERSION}`;
 }
 
 function setFlipped(flipped){
