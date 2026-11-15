@@ -1,5 +1,5 @@
 const BOOKS_URL = 'data/books.json';
-const WRAP_VERSION = '20261115-print-refresh';
+const WRAP_VERSION = '20261115-original-cover-art';
 
 const hero = document.querySelector('.hero');
 const heroKindle = document.getElementById('heroKindle');
