@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-07T19:57:00Z",
-  "count": 60,
+  "generated_at": "2026-11-15T15:26:00Z",
+  "count": 62,
   "books": [
     {
       "title": "Hooked",
@@ -1129,8 +1129,8 @@
       "cover_image": "tree_corrected.png",
       "cover_id": "",
       "release_date": "2026",
-      "date_read": "",
-      "status": "reading",
+      "date_read": "2026-11-15",
+      "status": "read",
       "comment": "--",
       "ai_comment": "Koda's zuihitsu essays follow Japan's trees as living presences, joining landscape, memory, loss, and close attention.",
       "rating": "",
@@ -1149,8 +1149,8 @@
       "cover_image": "",
       "cover_id": "",
       "release_date": "2025",
-      "date_read": "",
-      "status": "reading",
+      "date_read": "2026-11-15",
+      "status": "read",
       "comment": "--",
       "ai_comment": "The deluxe second volume of the Three-Body series turns the silent universe into a cosmic forest where revealing yourself can be fatal.",
       "rating": "",
@@ -1201,6 +1201,46 @@
       "translated_from": "",
       "genre": "Travel",
       "search_index": "journey across japan chris broad travel guide 47 prefectures english"
+    },
+    {
+      "title": "I Deliver Parcels in Beijing",
+      "author": "Hu Anyan",
+      "slug": "i-deliver-parcels-in-beijing",
+      "cover_image": "",
+      "cover_id": "",
+      "release_date": "2025",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "A clear-eyed memoir of precarious work in China, following one man's parcel routes, factory shifts, and search for dignity inside the gig economy.",
+      "rating": "",
+      "country": "China",
+      "book_url": "https://www.penguin.co.uk/books/465353/i-deliver-parcels-in-beijing-by-anyan-hu/9781802068252",
+      "isbn": "9781802068252",
+      "language": "English",
+      "translated_from": "Mandarin Chinese",
+      "genre": "Memoir",
+      "search_index": "i deliver parcels in beijing hu anyan memoir gig economy china english mandarin chinese"
+    },
+    {
+      "title": "Sisters in Yellow",
+      "author": "Mieko Kawakami",
+      "slug": "sisters-in-yellow",
+      "cover_image": "",
+      "cover_id": "",
+      "release_date": "2026",
+      "date_read": "",
+      "status": "reading",
+      "comment": "--",
+      "ai_comment": "In 1990s Tokyo, a teenage girl builds a fragile home around a shabby bar, female friendship, and the dangerous promise of money and security.",
+      "rating": "",
+      "country": "Japan",
+      "book_url": "https://www.panmacmillan.com/authors/mieko-kawakami/sisters-in-yellow/9781035024131",
+      "isbn": "9781035024131",
+      "language": "English",
+      "translated_from": "Japanese",
+      "genre": "Literary fiction",
+      "search_index": "sisters in yellow mieko kawakami literary fiction crime 1990s tokyo english japanese"
     }
   ]
 }
