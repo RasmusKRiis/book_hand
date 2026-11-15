@@ -16,11 +16,21 @@ A single-page reading library designed around an e-ink reader.
 - The library toggle switches those devices between **Currently reading** and **Already read**.
 - Selecting a library device moves that book into the hero reader and updates the `?book=` and `?view=` URL state.
 - The custom artwork stays text-free. Shelf titles switch between black and warm-white ink from the wrap’s sampled luminance, without a label box; author and details remain on the hero screen.
-- Shelf artwork is decoded and sampled only as it approaches the viewport, keeping the hero flip responsive even with the full 57-book collection.
+- Shelf artwork is decoded and sampled only as it approaches the viewport, keeping the hero flip responsive even with the full 62-book collection.
 
 ## Data
 
-The interface reads `data/books.json`. Published-cover references remain in `assets/`; the 57 original, print-oriented Kindle wraps are stored in `assets/kindle-wraps/`. The displayed artwork no longer depends on a remote cover API.
+The interface reads `data/books.json`. Published-cover references remain in `assets/`; the 62 original, print-oriented Kindle wraps are stored in `assets/kindle-wraps/`. The displayed artwork no longer depends on a remote cover API.
+
+## Adding books
+
+Every new book must receive a bespoke, text-free Kindle wrap derived from its original published cover. `Sisters in Yellow` and `Taipei Story` are the style anchors for restrained screen-print texture and mature editorial simplicity, but their compositions must never be copied. Each book keeps its own palette, focal metaphor, and visual identity.
+
+Follow the required artwork workflow in `AGENTS.md`, then run:
+
+```sh
+node scripts/validate-artwork.mjs
+```
 
 ## Local preview
 
